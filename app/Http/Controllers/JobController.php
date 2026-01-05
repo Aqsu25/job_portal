@@ -165,8 +165,8 @@ class JobController extends Controller
 
     public function findJob()
     {
-        $categories = Category::where('status', 1)->orderBy('created_at', 'ASC')->get();
-        $types = Type::where('status', 1)->orderBy('created_at', 'ASC')->get();
-        return view('jobs.findJobs', compact('categories', 'types'));
+        // $categories = Category::where('status', 1)->orderBy('created_at', 'ASC')->get();
+        // $types = Type::where('status', 1)->orderBy('created_at', 'ASC')->get();
+        return view('jobs.findJobs');
     }
 }
