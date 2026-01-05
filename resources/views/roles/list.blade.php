@@ -4,17 +4,17 @@
 @section('main')
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="flex justify-between">
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                    {{ __('Roles') }}
-                </h2>
-                <a href="{{ route('roles.create') }}"
-                    class="bg-blue-700  border text-decoration-none text-white rounded-md px-3 py-2 my-3 font-bond hover:bg-blue-600">Create</a>
-
-            </div>
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     <x-message></x-message>
+                    <div class="flex justify-between mb-2">
+                        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                            {{ __('Roles') }}
+                        </h2>
+                        <a href="{{ route('roles.create') }}"
+                            class="bg-blue-700  border text-decoration-none text-white rounded-md px-3 py-2 font-bond hover:bg-blue-600">Create</a>
+        
+                    </div>
                     <table class="w-full">
                         <thead class="bg-gray-50">
                             <tr class="border-b">

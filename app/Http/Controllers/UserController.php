@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\Jobdetail;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -14,7 +16,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::orderBy('created_at', 'DESC')->get();
+        $users = User::orderBy('created_at', 'ASC')->get();
         return view('users.list', compact('users'));
     }
 
@@ -57,7 +59,6 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-
         $user = User::findOrFail($id);
         $validator = Validator::make($request->all(), [
             'name' => 'required|unique:users,name,' . $id,
@@ -70,8 +71,8 @@ class UserController extends Controller
         $user->update([
             'name' => $request->name,
             'email' => $request->email,
-            'role' => $request->role,
         ]);
+        $user->syncRoles([$request->role]);
         return redirect()->route('users.index')->with('success', 'Users Updated Successfully!');
     }
 
@@ -88,4 +89,11 @@ class UserController extends Controller
         return redirect()->back();
     }
 
+    public function home()
+    {
+        $categories = Category::where('status', 1)->orderBy('created_at', 'DESC')->take(4)->get();
+        $isFeatured = Jobdetail::where('status', 1)->orderBy('created_at', 'DESC')->where('isFeatured', 1)->with('type')->take(4)->get();
+        $latestJob = Jobdetail::where('status', 1)->orderBy('created_at', 'DESC')->get();
+        return view('homes.home', compact('categories', 'isFeatured', 'latestJob'));
+    }
 }

@@ -2,70 +2,63 @@
 
 {{-- Section --}}
 @section('main')
-    <x-message></x-message>
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900">
+                    <x-message></x-message>
+                    <div class="flex justify-between mb-2">
+                        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                            {{ __('Users') }}
+                        </h2>
+                       
+                    </div>
+                    <table class="w-full">
+                        <thead class="bg-gray-50">
+                            <tr class="border-b">
+                                <th class="px-6 py-3 text-left">#</th>
+                                <th class="px-6 py-3 text-left">Name</th>
+                                <th class="px-6 py-3 text-left">Email</th>
+                                <th class="px-6 py-3 text-left">Role</th>
+                                <th class="px-6 py-3 text-left">Created_By</th>
+                                <th class="px-6 py-3 text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white">
+                            @foreach ($users as $user)
+                                <tr class="border-b">
+                                    <td class="px-6 py-3 text-left">{{ $loop->iteration }}</td>
+                                    <td class="px-6 py-3 text-left">{{ $user->name }}</td>
+                                    <td class="px-6 py-3 text-left">{{ $user->email }}</td>
+                                    <td class="px-6 py-3 text-left">
+                                        @if ($user->roles->pluck('name')->implode(','))
+                                            {{ $user->roles->pluck('name')->implode(',') }}
+                                        @else
+                                            <p>No Permission Assign Yet!</p>
+                                        @endif
+                                    </td>
+                                    <td class="px-6 py-3 text-left">
+                                        {{ \Carbon\Carbon::parse($user->created_at)->format('d M,Y') }}</td>
+                                    <td class="px-6 py-3 flex justify-center gap-2">
+                                        <a href="{{ route('users.edit', $user->id) }}">
+                                            <i class="fas fa-edit text-blue-700"></i>
+                                        </a>
+                                        <form action="{{ route('users.destroy', $user->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit">
+                                                <i class="fa-solid fa-xmark text-red-500"></i>
+                                            </button>
+                                        </form>
 
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
 
-    <div class="overflow-x-auto mt-5 flex justify-center items-center">
-        <table class="min-w-full bg-white table-auto">
-            <thead class="bg-gray-800 whitespace-nowrap">
-                <tr>
-                    <th class="p-4 text-left text-sm font-medium text-white">
-                        Name
-                    </th>
-                    <th class="p-4 text-left text-sm font-medium text-white">
-                        Email
-                    </th>
-                    <th class="p-4 text-left text-sm font-medium text-white">
-                        Role
-                    </th>
-                    <th class="p-4 text-left text-sm font-medium text-white">
-                        Actions
-                    </th>
-                </tr>
-            </thead>
-
-            <tbody class="whitespace-nowrap">
-                @foreach ($users as $user)
-                    <tr class="even:bg-blue-50">
-                        <td class="p-4 text-[15px] text-slate-900 font-medium">
-                            {{ $user->name }}
-                        </td>
-
-                        <td class="p-4 text-[15px] text-slate-600 font-medium">
-                            {{ $user->email }}
-                        </td>
-                        <td class="p-4 text-[15px] text-slate-600 font-medium">
-                            @if ($user->roles->pluck('name')->implode(','))
-                                <p class="">
-                                    {{ $user->roles->pluck('name')->implode(',') }}
-                                </p>
-                            @else<p>No Role Assign Yet!</p>
-                            @endif
-
-                        </td>
-
-                        <td class="p-4">
-                            <div class="flex items-center">
-                                <button class="mr-3 cursor-pointer" title="Edit">
-                                    <a href="{{ route('users.edit', $user->id) }}">
-                                        <i class="fas fa-edit text-blue-700"></i>
-                                    </a>
-                                </button>
-                                <form action="{{ route('users.destroy', $user->id) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit">
-                                        <i class="fa-solid fa-xmark text-red-500"></i>
-                                    </button>
-                                </form>
-                            </div>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </div>
+            </div>
+        </div>
     </div>
-    <p class="my-3">
-        {{-- {{ $users->links() }} --}}
-    </p>
 @endsection

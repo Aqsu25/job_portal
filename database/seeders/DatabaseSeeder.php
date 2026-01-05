@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\Category;
+use App\Models\Company;
+use App\Models\Jobdetail;
 use App\Models\Type;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -23,11 +25,16 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+
+
+        User::factory(5)->create();
         Category::factory(5)->create();
         Type::factory(5)->create();
+        Company::factory(5)->create();
+        Jobdetail::factory(5)->create();
 
-        //  $this->call([
-        //     RolePermissionSeeder::class,
-        // ]);
+         $this->call([
+            RolePermissionSeeder::class,
+        ]);
     }
 }

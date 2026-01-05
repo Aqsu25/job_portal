@@ -207,6 +207,35 @@
                                     placeholder="Keywords ">
 
                             </div>
+                            <!-- experience -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">
+                                    Experience <span class="text-red-500">*</span>
+                                </label>
+                                <select name="experience" id="" class="form-control">
+                                    <option value="">Select Year</option>
+                                    <option value="1" {{ $job->experience == 1 ? 'selected' : '' }}>1 Year</option>
+                                    <option value="2" {{ $job->experience == 2 ? 'selected' : '' }}>2 Years
+                                    </option>
+                                    <option value="3" {{ $job->experience == 3 ? 'selected' : '' }}>3 Years</option>
+                                    <option value="4" {{ $job->experience == 4 ? 'selected' : '' }}>4 Years
+                                    </option>
+                                    <option value="5" {{ $job->experience == 5 ? 'selected' : '' }}>5 Years
+                                    </option>
+                                    <option value="6" {{ $job->experience == 6 ? 'selected' : '' }}>6 Years
+                                    </option>
+                                    <option value="7" {{ $job->experience == 7 ? 'selected' : '' }}>7 Years
+                                    </option>
+                                    <option value="8" {{ $job->experience == 8 ? 'selected' : '' }}>8 Years
+                                    </option>
+                                    <option value="9" {{ $job->experience == 9 ? 'selected' : '' }}>9 Years
+                                    </option>
+                                    <option value="10" {{ $job->experience == 10 ? 'selected' : '' }}>10 Years
+                                    </option>
+                                    <option value="10_plus" {{ $job->experience == '10_plus' ? 'selected' : '' }}>10+
+                                        Years</option>
+                                </select>
+                            </div>
                             <!-- Submit -->
                             <div class="pt-4 flex justify-end">
                                 <button type="submit"

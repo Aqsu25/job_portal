@@ -38,10 +38,12 @@
                         class="flex items-center gap-2 text-gray-600 hover:text-blue-600 transition">
                         Home
                     </a>
-                    <a href="{{route('job_portal.create')}}" class="flex items-center gap-2 text-gray-600 hover:text-blue-600 transition">
+                    <a href="{{ route('job_portal.index') }}"
+                        class="flex items-center gap-2 text-gray-600 hover:text-blue-600 transition">
                         Jobs
                     </a>
-                    <a href="{{route('companies.create')}}" class="flex items-center gap-2 text-gray-600 hover:text-blue-600 transition">
+                    <a href="{{ route('companies.index') }}"
+                        class="flex items-center gap-2 text-gray-600 hover:text-blue-600 transition">
                         Companies
                     </a>
                     <a href="#" class="flex items-center gap-2 text-gray-600 hover:text-blue-600 transition">
@@ -55,17 +57,16 @@
                         <a href="{{ route('myprofile') }}" class="text-gray-600 hover:text-blue-600 font-medium">
                             My Profile
                         </a>
-                        <a href="{{route('job_portal.create')}}"
+                        <a href="{{ route('job_portal.create') }}"
                             class="bg-blue-400 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition font-medium">
                             Post a Job
                         </a>
                     @else
-                        <a href="{{ route('login') }}" class="text-gray-600 hover:text-blue-600 font-medium">
-                            Login
-                        </a>
-                        <a href="#"
+                        {{-- <a href="{{ route('login') }}" class="text-gray-600 hover:text-blue-600 font-medium">
+                        </a> --}}
+                        <a href="{{ route('login') }}"
                             class="bg-blue-400 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition font-medium">
-                            Post a Job
+                            Login
                         </a>
                     @endif
 
@@ -87,7 +88,7 @@
                 <a href="#" class="block text-gray-600 hover:text-blue-600">
                     Jobs
                 </a>
-                <a href="{{route('companies.create')}}" class="block text-gray-600 hover:text-blue-600">
+                <a href="{{ route('companies.create') }}" class="block text-gray-600 hover:text-blue-600">
                     Companies
                 </a>
                 <a href="#" class="block text-gray-600 hover:text-blue-600">
@@ -95,7 +96,8 @@
                 </a>
                 <hr>
                 <a href="{{ route('login') }}" class="block text-gray-600 hover:text-blue-600">Login</a>
-                <a href="{{route('job_portal.create')}}" class="block text-center bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700">
+                <a href="{{ route('job_portal.create') }}"
+                    class="block text-center bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700">
                     Post a Job
                 </a>
             </div>

@@ -1,5 +1,3 @@
-
-
 @extends('homes.header')
 
 @section('main')
@@ -11,7 +9,7 @@
                 <x-message />
                 <a href="{{ route('home') }}" class="text-blue-600 hover:underline">Home</a>
                 <span class="mx-2">/</span>
-                <span class="font-medium text-gray-700">Companies</span>
+                <span class="font-medium text-gray-700">Categories</span>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -27,9 +25,9 @@
                         <!-- Heading -->
                         <div class="flex justify-between items-center gap-4">
                             <h2 class="text-2xl font-semibold text-gray-800">
-                                Companies
+                                Categories
                             </h2>
-                            <a href="{{ route('companies.create') }}"
+                            <a href="{{ route('categories.create') }}"
                                 class="bg-blue-400  border text-decoration-none text-white rounded-md px-3 py-2 font-bond hover:bg-blue-600">Create</a>
                         </div>
                         <div class="mt-4">
@@ -38,31 +36,38 @@
                                     <tr class="border-b">
                                         <th class="px-6 py-3 text-left">#</th>
                                         <th class="px-6 py-3 text-left">Name</th>
-                                        <th class="px-6 py-3 text-left">Email</th>
-                                        <th class="px-6 py-3 text-left">Location</th>
-                                        {{-- <th class="px-6 py-3 text-left">Website</th> --}}
-                                        <th class="px-6 py-3 text-center">Action</th>
+                                        <th class="px-6 py-3 text-left">Status</th>
+                                        <th class="px-6 py-3 text-left">Created_at</th>
+                                        <th class="px-6 py-3 text-center">Actions</th>
                                     </tr>
                                 </thead>
 
                                 <tbody class="text-sm">
-                                    @if ($companies->isNotEmpty())
-                                        @foreach ($companies as $company)
+                                    @if ($categories->isNotEmpty())
+                                        @foreach ($categories as $category)
                                             <tr class="border-b">
                                                 <td class="px-6 py-3 text-left">{{ $loop->iteration }}</td>
-                                                <td class="px-6 py-3 text-left">{{ $company->name }}</td>
-                                                <td class="px-6 py-3 text-left">{{ $company->email }}</td>
-                                                <td class="px-6 py-3 text-left">{{ $company->location }}</td>
-                                                {{-- <td class="px-6 py-3 text-left">{{ $company->website }}</td> --}}
+                                                <td class="px-6 py-3 text-left">{{ $category->name }}</td>
+                                                <td class="px-6 py-3 text-left">
+                                                    @if ($category->status == 1)
+                                                        <i class="fa-solid fa-check text-success"></i>
+                                                    @else
+                                                        <i class="fa-solid fa-xmark text-danger"></i>
+                                                    @endif
+
+                                                </td>
+                                                <td class="px-6 py-3 text-left">
+                                                    {{ \Carbon\Carbon::parse($category->created_at)->format('d m.Y') }}
+                                                </td>
 
 
                                                 <td class="px-6 py-3 flex justify-center gap-2">
 
-                                                    <a href="{{ route('companies.edit', $company->id) }}"
+                                                    <a href="{{ route('categories.edit', $category->id) }}"
                                                         class="text-blue-600 hover:text-blue-800">
                                                         <i class="fas fa-edit"></i>
                                                     </a>
-                                                    <form action="{{ route('companies.destroy', $company->id) }}"
+                                                    <form action="{{ route('categories.destroy', $category->id) }}"
                                                         method="POST">
                                                         @csrf
                                                         @method('DELETE')
@@ -82,7 +87,7 @@
                         </div>
                     </div>
                     <div class="mt-2">
-                        <p>{{ $companies->links() }}</p>
+                        <p>{{ $categories->links() }}</p>
                     </div>
                 </div>
             </div>

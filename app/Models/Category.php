@@ -16,6 +16,6 @@ class Category extends Model
     // job-detail
     public function jobDetail()
     {
-        return $this->belongsTo(Jobdetail::class);
+        return $this->hasOne(Jobdetail::class);
     }
 }

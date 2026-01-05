@@ -21,7 +21,11 @@ return new class extends Migration
             $table->text('benefits')->nullable();
             $table->text('responsibility')->nullable();
             $table->text('qualifications')->nullable();
+            $table->string('experience');
+            $table->integer('status')->default(1);
+            $table->integer('isFeatured')->default(0);
             $table->text('keywords')->nullable();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('company_id')->constrained()->onDelete('cascade');
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->foreignId('type_id')->constrained()->onDelete('cascade');

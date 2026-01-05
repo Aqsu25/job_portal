@@ -12,7 +12,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $categories = Category::orderBy('created_at', 'DESC')->paginate(3);
+        return view('category.list', compact('categories'));
     }
 
     /**
@@ -20,7 +21,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('category.create');
     }
 
     /**
@@ -28,8 +29,25 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name'     => 'required|string|min:3',
+            'status'  => 'required',
+        ]);
+
+        // dd($request->all());
+
+
+        Category::create([
+            'name'          => $request->name,
+            'status'    => $request->status,
+        ]);
+
+
+        return redirect()
+            ->route('categories.index')
+            ->with('success', 'Category Created Successfully!');
     }
+
 
     /**
      * Display the specified resource.
@@ -42,24 +60,43 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Category $category)
+    public function edit($id)
     {
-        //
+        $category = Category::findOrFail($id);
+        return view('category.edit', compact('category'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Category $category)
+    public function update(Request $request, $id)
     {
-        //
+        $category = Category::findOrFail($id);
+        $request->validate([
+            'name'     => 'required|string|min:3',
+            'status'  => 'required',
+        ]);
+        // dd($request->all());
+        $category->update([
+            'name'          => $request->name,
+            'status'    => $request->status,
+        ]);
+        return redirect()
+            ->route('categories.index')
+            ->with('success', 'Category Updated Successfully!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Category $category)
+    public function destroy($id)
     {
-        //
+        $category = Category::findOrFail($id);
+        if ($category) {
+            $category->delete();
+            return redirect()
+                ->route('categories.index')
+                ->with('success', 'Category Deleted Successfully!');
+        }
     }
 }

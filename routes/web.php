@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\TypeController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -12,9 +14,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/home', function () {
-    return view('homes.home');
-})->name('home');
+Route::get('/home', [UserController::class, 'home'])->name('home');
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -36,13 +37,19 @@ Route::middleware('auth')->group(function () {
     // update-profile-pic
     Route::post('updatepic/myprofile', [ProfileController::class, 'updateProfilepic'])->name('updateprofile.pic');
 
+    // categories
+    Route::resource('/categories', CategoryController::class);
+
+    // types
+    Route::resource('/types', TypeController::class);
+
     //  job
     Route::resource('/job_portal', JobController::class);
-    // company-create
-    Route::get('/job_portal/createCompany', [JobController::class, 'createCompany'])->name('createCompany');
-    // company-store
-    Route::post('/job_portal/storeCompany', [JobController::class, 'storeCompany'])->name('storeCompany');
-// company
+    // find-job
+        Route::get('/findjob', [JobController::class, 'findJob'])->name('find.jobs');
+
+
+    // company
     Route::resource('/companies', CompanyController::class);
 });
 

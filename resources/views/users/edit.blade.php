@@ -47,10 +47,12 @@
                                     class="border-gray-300 text-black shadow-sm w-1/2 rounded-lg">
                                     <option value="">Select Role</option>
                                     @foreach ($roles as $role)
-                                        <option value="{{ $role->name }}">{{ $role->name }}</option>
+                                        <option value="{{ $role->name }}"
+                                            {{ $user->hasRole($role->name) ? 'selected' : '' }}>
+                                            {{ $role->name }}</option>
                                     @endforeach
                                 </select>
-                                @error('role')
+                                @error('roles')
                                     <p class="text-red-500 mt-2">{{ $message }}</p>
                                 @enderror
                             </div>

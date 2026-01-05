@@ -12,7 +12,7 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        $companies = Company::orderBy('created_at', 'DESC')->get();
+        $companies = Company::orderBy('created_at', 'DESC')->paginate(3);
         return view('company.list', compact('companies'));
     }
 
@@ -67,7 +67,8 @@ class CompanyController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $company = Company::findOrFail($id);
+        return view('company.edit', compact('company'));
     }
 
     /**
@@ -75,14 +76,37 @@ class CompanyController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $company = Company::findOrFail($id);
+        $request->validate([
+            'name'     => 'required|string|min:3',
+            'email'    => 'required|email|unique:companies,email,' . $id,
+            'location' => 'required|string|min:3',
+            'website'  => 'required|url',
+        ]);
+        // dd($request->all());
+        $company->update([
+            'name'          => $request->name,
+            'email'        => $request->email,
+            'location'       => $request->location,
+            'website'    => $request->website,
+        ]);
+        return redirect()
+            ->route('companies.index')
+            ->with('success', 'Company Updated Successfully!');
     }
+
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-        //
+        $company = Company::findOrFail($id);
+        if ($company) {
+            $company->delete();
+        }
+        else{
+
+        }
     }
 }

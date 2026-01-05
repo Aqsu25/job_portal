@@ -1,7 +1,7 @@
 @extends('homes.header')
 
 @section('main')
-    <div class="min-h-screen bg-gray-50 py-10">
+    <div class="min-h-screen py-10">
         <div class="max-w-7xl mx-auto px-4">
 
             <!-- Breadcrumb -->
@@ -30,7 +30,7 @@
                             </h2>
                             <p class="text-sm text-gray-500 mt-1">
                                 Please
-                                complete your profile information accurately.
+                                fill your job details.
                             </p>
                         </div>
 
@@ -63,7 +63,9 @@
                                         @if ($categories->isNotEmpty())
                                             <option value="">Select a Category</option>
                                             @foreach ($categories as $category)
-                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                                <option
+                                                    value="{{ $category->id }}"{{ old('category_id') == $category->id ? 'selected' : '' }}>
+                                                    {{ $category->name }}</option>
                                             @endforeach
                                         @endif
                                     </select>
@@ -86,7 +88,9 @@
                                         @if ($companies->isNotEmpty())
                                             <option value="">Select a Company</option>
                                             @foreach ($companies as $company)
-                                                <option value="{{ $company->id }}">{{ $company->name }}</option>
+                                                <option value="{{ $company->id }}"
+                                                    {{ old('company_id') == $company->id ? 'selected' : '' }}>
+                                                    {{ $company->name }}</option>
                                             @endforeach
                                         @endif
                                     </select>
@@ -108,8 +112,10 @@
                                         class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500">
                                         @if ($jobNature->isNotEmpty())
                                             <option value="">Select a Job Nature</option>
-                                            @foreach ($jobNature as $nature)
-                                                <option value="{{ $nature->id }}">{{ $nature->name }}</option>
+                                            @foreach ($jobNature as $type)
+                                                <option value="{{ $type->id }}"
+                                                    {{ old('type_id') == $type->id ? 'selected' : '' }}>
+                                                    {{ $type->name }}</option>
                                             @endforeach
                                         @endif
                                     </select>
@@ -197,7 +203,7 @@
                                     class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500">{{ old('qualifications') }}</textarea>
 
                             </div>
-                            <!-- Qualifications -->
+                            <!-- keywords -->
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1">
                                     Keywords
@@ -205,6 +211,27 @@
                                 <input type="text" name="keywords" value="{{ old('keywords') }}"
                                     class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                                     placeholder="Keywords ">
+
+                            </div>
+                            <!-- experience -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">
+                                    Experience <span class="text-red-500">*</span>
+                                </label>
+                                <select name="experience" id="" class="form-control">
+                                    <option value="">Select Year</option>
+                                    <option value="1">1 Year</option>
+                                    <option value="2">2 Years</option>
+                                    <option value="3">3 Years</option>
+                                    <option value="4">4 Years</option>
+                                    <option value="5">5 Years</option>
+                                    <option value="6">6 Years</option>
+                                    <option value="7">7 Years</option>
+                                    <option value="8">8 Years</option>
+                                    <option value="9">9 Years</option>
+                                    <option value="10">10 Years</option>
+                                    <option value="10_plus">10+ Years</option>
+                                </select>
 
                             </div>
                             <!-- Submit -->

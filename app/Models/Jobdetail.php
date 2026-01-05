@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Jobdetail extends Model
 {
-    protected $fillable = ['title', 'vacancy', 'salary', 'location', 'description', 'company_id', 'category_id', 'type_id', 'benefits', 'responsibility', 'qualifications', 'keywords'];
+    use HasFactory;
+    protected $fillable = ['title', 'vacancy', 'salary', 'location', 'description', 'company_id', 'category_id', 'type_id', 'benefits', 'responsibility', 'qualifications', 'keywords','experience','user_id','status','isFeatured'];
     // company
     public function company()
     {
@@ -22,4 +24,5 @@ class Jobdetail extends Model
     {
         return $this->belongsTo(Type::class);
     }
+
 }
