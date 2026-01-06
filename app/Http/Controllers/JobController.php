@@ -163,10 +163,49 @@ class JobController extends Controller
         }
     }
 
-    public function findJob()
+    public function findJob(Request $request)
     {
-        // $categories = Category::where('status', 1)->orderBy('created_at', 'ASC')->get();
-        // $types = Type::where('status', 1)->orderBy('created_at', 'ASC')->get();
-        return view('jobs.findJobs');
+        $categories = Category::where('status', 1)->orderBy('created_at', 'ASC')->get();
+        $types = Type::where('status', 1)->orderBy('created_at', 'ASC')->get();
+        $jobdetails = Jobdetail::where('status', 1)->with('type');
+        // search using keyword
+        if (!empty($request->keywords)) {
+            $jobdetails = $jobdetails->where(function ($q) use ($request) {
+                $q->orWhere('title', 'LIKE', '%' . $request->keywords . '%')
+                    ->orWhere('keywords', 'LIKE', '%' . $request->keywords . '%');
+            });
+        }
+
+        // search using location
+        if (!empty($request->location)) {
+            $jobdetails = $jobdetails->where('location', $request->location);
+        }
+        // search using category
+        if (!empty($request->category_id)) {
+            $jobdetails = $jobdetails->where('category_id', $request->category_id);
+        }
+
+        // search using jobtype
+        if (!empty($request->job_types)) {
+            $jobdetails = $jobdetails->whereIn('type_id', $request->job_types);
+        }
+
+        // search using experience
+        if (!empty($request->experience)) {
+            if ($request->experience === '10_plus') {
+                $jobdetails = $jobdetails->where('experience', '>=', 10);
+            } else {
+                $jobdetails = $jobdetails->where('experience', $request->experience);
+            }
+        }
+        //   jobdetail
+        if ($request->sort == '1') {
+            $jobdetails = $jobdetails->orderBy('created_at', 'DESC');
+        } else {
+            $jobdetails = $jobdetails->orderBy('created_at', 'ASC');
+        }
+
+        $jobdetails = $jobdetails->paginate(6);
+        return view('jobs.findJobs', compact('categories', 'types', 'jobdetails'));
     }
 }

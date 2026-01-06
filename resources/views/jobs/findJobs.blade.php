@@ -1,73 +1,165 @@
 @extends('homes.header')
 @section('main')
-  <div class="max-w-7xl mx-auto p-6">
-
-    <header class="text-black text-3xl font-bold mb-6">
-      Find Jobs
-    </header>
-
-    <div class="flex flex-col lg:flex-row gap-6">
-
-      <aside class="w-full lg:w-1/4 bg-white p-6 rounded-lg shadow">
-        <div class="mb-4">
-          <label class="block mb-2 font-semibold">Keywords</label>
-          <input type="text" placeholder="Keywords"
-            class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-        </div>
-        <div class="mb-4">
-          <label class="block mb-2 font-semibold">Location</label>
-          <input type="text" placeholder="Location"
-            class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-        </div>
-        <div class="mb-4">
-          <label class="block mb-2 font-semibold">Category</label>
-          <select
-            class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <option>Select a Category</option>
-            <option>Web Developer</option>
-            <option>Designer</option>
-            <option>Marketing</option>
-          </select>
-        </div>
-        <div class="mb-4">
-          <label class="block mb-2 font-semibold">Job Type</label>
-          <select
-            class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <option>Full Time</option>
-            <option>Part Time</option>
-            <option>Freelance</option>
-            <option>Remote</option>
-          </select>
-        </div>
-        <div class="mb-4">
-          <label class="block mb-2 font-semibold">Experience</label>
-          <select
-            class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <option>Select Experience</option>
-            <option>0-1 Year</option>
-            <option>1-3 Years</option>
-            <option>3+ Years</option>
-          </select>
-        </div>
-      </aside>
-
-      <main class="w-full lg:w-3/4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-
-        @for ($i = 0; $i < 6; $i++)
-          <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition duration-300">
-            <h2 class="text-xl font-bold text-blue-600">Web Developer</h2>
-            <p class="text-gray-700 mt-2">We are in need of a Web Developer for our company.</p>
-            <div class="flex gap-6 text-gray-500 mt-3 text-sm">
-              <span>Noida</span>
-              <span>Remote</span>
-              <span>2-3 Lacs PA</span>
+    <section class="py-5">
+        <div class="container">
+            <!-- Header -->
+            <div class="row mb-4 align-items-center">
+                <div class="col-md-10">
+                    <h2 class="fw-bold text-blue-500">Find Jobs</h2>
+                </div>
+                <div class="col-md-2">
+                    <select name="sort" id="sort" class="form-select">
+                        <option value="1" {{ Request::get('sort') === '1' ? 'selected' : '' }}>Latest</option>
+                        <option value="0" {{ Request::get('sort') === '0' ? 'selected' : '' }}>Oldest</option>
+                    </select>
+                </div>
             </div>
-          </div>
-        @endfor
 
-      </main>
+            <div class="row">
+                <!-- Sidebar -->
+                <div class="col-md-4 col-lg-3 mb-4">
+                    <form action="{{ route('find.jobs') }}" method="POST">
+                        @csrf
+                        <div class="card shadow-sm p-4 border-0">
+                            <div class="mb-3">
+                                <h6 class="fw-bold text-secondary">Keywords</h6>
+                                <input value="{{ Request::get('keywords') }}" type="text" placeholder="Keywords"
+                                    class="form-control" name="keywords">
+                            </div>
 
-    </div>
+                            <div class="mb-3">
+                                <h6 class="fw-bold text-secondary">Location</h6>
+                                <input value="{{ request('location') }}" type="text" placeholder="Location"
+                                    class="form-control" name="location">
+                            </div>
 
-  </div>
+                            <div class="mb-3">
+                                <h6 class="fw-bold text-secondary">Category</h6>
+                                <select name="category_id" class="form-select">
+                                    <option value="">Select Category</option>
+                                    @if ($categories->isNotEmpty())
+                                        @foreach ($categories as $category)
+                                            <option {{ Request::get('category_id') == $category->id ? 'selected' : '' }}
+                                                value="{{ $category->id }}">
+                                                {{ $category->name }}</option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <h6 class="fw-bold text-secondary">Job Type</h6>
+                                @if ($types->isNotEmpty())
+                                    @foreach ($types as $type)
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="checkbox" name="job_types[]"
+                                                value="{{ $type->id }}" id="type{{ $type->id }}"
+                                                {{ in_array($type->id, (array) request()->job_types) ? 'checked' : '' }}>
+                                            <label class="form-check-label"
+                                                for="type{{ $type->id }}">{{ $type->name }}</label>
+                                        </div>
+                                    @endforeach
+                                @else
+                                    <p class="text-muted small">No job types available.</p>
+                                @endif
+                            </div>
+                            <div class="mb-3">
+                                <h6 class="fw-bold text-secondary">Experience</h6>
+                                <select name="experience" id="" class="form-control">
+                                    <option value="">Select Year</option>
+                                    <option value="1" {{ Request::get('experience') == 1 ? 'selected' : '' }}>1 Year
+                                    </option>
+                                    <option value="2" {{ Request::get('experience') == 2 ? 'selected' : '' }}>2
+                                        Years</option>
+                                    <option value="3" {{ Request::get('experience') == 3 ? 'selected' : '' }}>3
+                                        Years</option>
+                                    <option value="4" {{ Request::get('experience') == 4 ? 'selected' : '' }}>4
+                                        Years</option>
+                                    <option value="5" {{ Request::get('experience') == 5 ? 'selected' : '' }}>5
+                                        Years</option>
+                                    <option value="6" {{ Request::get('experience') == 6 ? 'selected' : '' }}>6
+                                        Years</option>
+                                    <option value="7" {{ Request::get('experience') == 7 ? 'selected' : '' }}>7
+                                        Years</option>
+                                    <option value="8" {{ Request::get('experience') == 8 ? 'selected' : '' }}>8
+                                        Years</option>
+                                    <option value="9" {{ Request::get('experience') == 9 ? 'selected' : '' }}>9
+                                        Years</option>
+                                    <option value="10" {{ Request::get('experience') == 10 ? 'selected' : '' }}>10
+                                        Years</option>
+                                    <option value="10_plus"
+                                        {{ Request::get('experience') == '10_plus' ? 'selected' : '' }}>10+ Years
+                                    </option>
+                                </select>
+                            </div>
+
+
+                            <button
+                                class="px-8 py-2 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-700 transition text-center text-decoration-none"
+                                type="submit">Search</button>
+                            <a href="{{ route('find.jobs') }}"
+                                class="px-8 py-2 bg-gray-800 mt-1 text-white rounded-lg font-medium hover:bg-blue-700 transition text-center text-decoration-none">Reset</a>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Job Cards -->
+                <div class="col-md-8 col-lg-9">
+                    <div class="row">
+                        @if ($jobdetails->isNotEmpty())
+                            @foreach ($jobdetails as $job)
+                                <div class="col-md-6 col-lg-4 mb-4">
+                                    <div class="card border-0 shadow-sm h-100 hover-shadow">
+                                        <div class="card-body d-flex flex-column">
+                                            <h5 class="card-title text-blue-500 fw-bold">{{ $job->title }}</h5>
+                                            <p class="card-text text-muted">
+                                                {{ \Illuminate\Support\Str::limit($job->description, 30, '...') }}
+                                            </p>
+
+                                            <div
+                                                class="bg-light border p-2 mb-3 rounded d-flex flex-wrap gap-3 align-items-center">
+                                                <span class="d-flex align-items-center gap-1">
+                                                    <i class="fa-solid fa-location-dot text-danger"></i>
+                                                    {{ $job->location ?? 'N/A' }}
+                                                </span>
+                                                <span class="d-flex align-items-center gap-1">
+                                                    <i class="fa fa-tasks text-blue-600"></i>
+                                                    {{ $job->type->name ?? 'N/A' }}
+                                                </span>
+                                                <span class="d-flex align-items-center gap-1">
+                                                    <i class="fa fa-usd text-success"></i>
+                                                    {{ $job->salary ?? 'N/A' }}
+                                                </span>
+                                                <p>{{ $job->keywords }}</p>
+                                                <p>{{ $job->category->name }}</p>
+                                            </div>
+
+
+                                            <div class="mt-auto d-grid">
+                                                <a href=""
+                                                    class="px-8 py-2 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-700 transition text-center text-decoration-none">View
+                                                    Details</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @else
+                            <div class="col-12">
+                                <p class="text-muted">No jobs found.</p>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <style>
+        .hover-shadow:hover {
+            transform: translateY(-3px);
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        }
+    </style>
 @endsection
