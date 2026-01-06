@@ -2,15 +2,12 @@
 @section('main')
   <div class="max-w-7xl mx-auto p-6">
 
-    <!-- Heading -->
     <header class="text-black text-3xl font-bold mb-6">
       Find Jobs
     </header>
 
-    <!-- Main Layout -->
     <div class="flex flex-col lg:flex-row gap-6">
 
-      <!-- Sidebar -->
       <aside class="w-full lg:w-1/4 bg-white p-6 rounded-lg shadow">
         <div class="mb-4">
           <label class="block mb-2 font-semibold">Keywords</label>
@@ -54,10 +51,8 @@
         </div>
       </aside>
 
-      <!-- Job Listings (Right Side) -->
       <main class="w-full lg:w-3/4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
-        <!-- Job Card -->
         @for ($i = 0; $i < 6; $i++)
           <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition duration-300">
             <h2 class="text-xl font-bold text-blue-600">Web Developer</h2>
