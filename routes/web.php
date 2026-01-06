@@ -48,7 +48,7 @@ Route::middleware('auth')->group(function () {
     // find-job
     Route::match(['get', 'post'], '/findjob', [JobController::class, 'findJob'])->name('find.jobs');
 
-    // Route::get('/findjob/{keywords?}', [JobController::class, 'findJob'])->name('find.jobs');
+    Route::get('/job/detail', [JobController::class, 'detail'])->name('job.detail');
 
     // company
     Route::resource('/companies', CompanyController::class);

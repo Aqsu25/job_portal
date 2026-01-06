@@ -208,4 +208,9 @@ class JobController extends Controller
         $jobdetails = $jobdetails->paginate(6);
         return view('jobs.findJobs', compact('categories', 'types', 'jobdetails'));
     }
+
+    public function detail()
+    {
+        return view('jobs.detail');
+    }
 }
