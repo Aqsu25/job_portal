@@ -8,10 +8,17 @@
                     <h2 class="fw-bold text-blue-500">Find Jobs</h2>
                 </div>
                 <div class="col-md-2">
-                    <select name="sort" id="sort" class="form-select">
-                        <option value="1" {{ Request::get('sort') === '1' ? 'selected' : '' }}>Latest</option>
-                        <option value="0" {{ Request::get('sort') === '0' ? 'selected' : '' }}>Oldest</option>
-                    </select>
+                    <form action="{{ route('find.jobs') }}" method="POST">
+                        @csrf
+                        <div class="flex justify-center gap-2">
+                            <select name="sort" id="sort" class="form-select">
+                                <option value="1" {{ Request::get('sort') === '1' ? 'selected' : '' }}>Latest</option>
+                                <option value="0" {{ Request::get('sort') === '0' ? 'selected' : '' }}>Oldest</option>
+                            </select>
+                            <button class="" type="submit"><i class="fas fa-search"></i></button>
+
+                        </div>
+                    </form>
                 </div>
             </div>
 
@@ -130,8 +137,7 @@
                                                     <i class="fa fa-usd text-success"></i>
                                                     {{ $job->salary ?? 'N/A' }}
                                                 </span>
-                                                <p>{{ $job->keywords }}</p>
-                                                <p>{{ $job->category->name }}</p>
+                                             
                                             </div>
 
 
