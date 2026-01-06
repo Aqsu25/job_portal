@@ -46,7 +46,7 @@ Route::middleware('auth')->group(function () {
     //  job
     Route::resource('/job_portal', JobController::class);
     // find-job
-        Route::get('/findjob', [JobController::class, 'findJob'])->name('find.jobs');
+    Route::get('/findjob', [JobController::class, 'findJob'])->name('find.jobs');
 
 
     // company
