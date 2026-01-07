@@ -12,7 +12,10 @@ use App\Models\Type;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+<<<<<<< Updated upstream
 use Illuminate\Support\Facades\Mail;
+=======
+>>>>>>> Stashed changes
 use Illuminate\Support\Facades\Validator;
 
 use function Symfony\Component\Clock\now;
@@ -24,7 +27,11 @@ class JobController extends Controller
      */
     public function index()
     {
+<<<<<<< Updated upstream
         $jobs = Jobdetail::orderBy('created_at', 'DESC')->where('user_id', Auth::user()->id)->with('type')->paginate(10);
+=======
+        $jobs = Jobdetail::where('user_id', Auth::user()->id)->paginate(5);
+>>>>>>> Stashed changes
         return view('jobs.list', compact('jobs'));
     }
 
@@ -39,6 +46,7 @@ class JobController extends Controller
         return view('jobs.create', compact('categories', 'jobNature', 'companies'));
     }
 
+
     /**
      * Store a newly created resource in storage.
      */
@@ -46,10 +54,20 @@ class JobController extends Controller
     {
 
         $validator = Validator::make($request->all(), [
-            'title'           => 'required|string|min:3',
+            'title'           => 'required|string|min:5|max:200',
             'vacancy'         => 'required|integer|min:1',
+<<<<<<< Updated upstream
             'location'        => 'required|string|min:3',
             'experience'      => 'required',
+=======
+            'salary'          => 'nullable|string|min:3',
+            'location'        => 'required|string|max:50',
+            'description'     => 'nullable|string|min:10',
+            'benefits'        => 'nullable|string',
+            'responsibility'  => 'nullable|string|min:10',
+            'qualifications'  => 'nullable|string',
+            'keywords'        => 'nullable|string',
+>>>>>>> Stashed changes
             'company_id'     => 'required|exists:companies,id',
             'category_id'     => 'required|exists:categories,id',
             'type_id'         => 'required|exists:types,id',
@@ -64,6 +82,7 @@ class JobController extends Controller
 
         Jobdetail::create([
             'title'          => $request->title,
+            'user_id' => Auth::user()->id,
             'vacancy'        => $request->vacancy,
             'salary'         => $request->salary,
             'location'       => $request->location,
