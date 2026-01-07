@@ -15,7 +15,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     {{-- font --}}
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=La+Belle+Aurore&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=League+Script&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100..900;1,100..900&family=Whisper&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=La+Belle+Aurore&family=Lato:ital,wght@0,100;0,300;0,500;0,700;0,900;1,100;1,300;1,500;1,700;1,900&family=League+Script&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100..900;1,100..900&family=Whisper&display=swap');
     </style>
 </head>
 
@@ -28,25 +28,25 @@
                 <!-- Logo -->
                 <div class="flex items-center space-x-2">
                     <span class="text-2xl font-bold text-gray-800">
-                        Job<span class="text-blue-400">Connect</span>
+                        Job<span class="text-blue-500">Connect</span>
                     </span>
                 </div>
 
                 <!-- Desktop Menu -->
                 <div class="hidden md:flex items-center space-x-8 font-medium">
                     <a href="{{ route('home') }}"
-                        class="flex items-center gap-2 text-gray-600 hover:text-blue-600 transition">
+                        class="text-decoration-none flex items-center gap-2 text-gray-600 hover:text-blue-600 transition">
                         Home
                     </a>
                     <a href="{{ route('job_portal.index') }}"
-                        class="flex items-center gap-2 text-gray-600 hover:text-blue-600 transition">
+                        class="flex items-center gap-2 text-gray-600 hover:text-blue-600 transition text-decoration-none">
                         Jobs
                     </a>
                     <a href="{{ route('companies.index') }}"
-                        class="flex items-center gap-2 text-gray-600 hover:text-blue-600 transition">
+                        class="flex items-center gap-2 text-gray-600 hover:text-blue-600 transition text-decoration-none">
                         Companies
                     </a>
-                    <a href="#" class="flex items-center gap-2 text-gray-600 hover:text-blue-600 transition">
+                    <a href="#" class="flex items-center gap-2 text-gray-600 hover:text-blue-600 transition text-decoration-none">
                         About
                     </a>
                 </div>
@@ -54,18 +54,18 @@
                 <!-- Right Buttons -->
                 <div class="hidden md:flex items-center space-x-4">
                     @if (Auth::check())
-                        <a href="{{ route('myprofile') }}" class="text-gray-600 hover:text-blue-600 font-medium">
+                        <a href="{{ route('myprofile') }}" class="text-gray-600 hover:text-blue-600 font-medium text-decoration-none">
                             My Profile
                         </a>
                         <a href="{{ route('job_portal.create') }}"
-                            class="bg-blue-400 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition font-medium">
+                            class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition font-medium text-decoration-none">
                             Post a Job
                         </a>
                     @else
                         {{-- <a href="{{ route('login') }}" class="text-gray-600 hover:text-blue-600 font-medium">
                         </a> --}}
                         <a href="{{ route('login') }}"
-                            class="bg-blue-400 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition font-medium">
+                            class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition font-medium">
                             Login
                         </a>
                     @endif
@@ -104,7 +104,7 @@
         </div>
     </nav>
     {{-- main --}}
-    <section class="py-3">
+    <section class="py-3 bg-gray-50">
         @yield('main')
     </section>
 

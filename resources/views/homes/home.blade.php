@@ -63,7 +63,7 @@
                     <select id="category" name="category"
                         class="w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-800">
                         @if ($categories->isNotEmpty())
-                        <option value="">Select Category</option>
+                            <option value="">Select Category</option>
                             @foreach ($categories as $category)
                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
                             @endforeach
@@ -136,8 +136,6 @@
 
                             <p class="text-gray-500 text-sm mt-1 line-clamp-1">
                                 {{ Illuminate\Support\Str::words($job->description, 10) }}
-
-                                {{-- {{ $job->description ?? 'We are hiring a skilled professional.' }} --}}
                             </p>
                             <div class="">
                                 <div class="text-sm text-gray-600 mt-4 p-3 bg-gray-200 rounded">
@@ -188,7 +186,6 @@
 
                             <p class="text-gray-500 text-sm mt-1 line-clamp-1">
                                 {{ Illuminate\Support\Str::words($latestjob->description, 10) }}
-                                {{-- {{ $job->description ?? 'We are hiring a skilled professional.' }} --}}
                             </p>
                             <div class="">
                                 <div class="text-sm text-gray-600 mt-4 p-3 bg-gray-200 rounded">
@@ -205,8 +202,8 @@
                             </div>
                             <div class="flex justify-between items-center mt-3">
 
-                                <a href="{{ route('job_portal.show', $job->id) }}"
-                                    class="w-full bg-blue-500 hover:bg-blue-600 text-white text-center px-4 py-2 rounded-md text-sm">
+                                <a href="{{ route('job_portal.detail', $job->id) }}"
+                                    class="w-full bg-blue-500 hover:bg-blue-600 text-white text-center px-4 py-2 rounded-md text-sm text-decoration-none">
                                     View Details
                                 </a>
                             </div>

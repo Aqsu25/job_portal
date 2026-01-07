@@ -45,14 +45,24 @@ Route::middleware('auth')->group(function () {
 
     //  job
     Route::resource('/job_portal', JobController::class);
-    // find-job
-    Route::match(['get', 'post'], '/findjob', [JobController::class, 'findJob'])->name('find.jobs');
-
-    Route::get('/job/detail', [JobController::class, 'detail'])->name('job.detail');
 
     // company
     Route::resource('/companies', CompanyController::class);
 });
+
+// find-job
+Route::match(['get', 'post'], '/findjob', [JobController::class, 'findJob'])->name('find.jobs');
+// job-detail
+Route::get('/job/detail/{id}', [JobController::class, 'detail'])->name('job_portal.detail');
+
+// apply-job
+Route::get('/apply_job/{id}', [JobController::class, 'applyjob'])->name('apply.job');
+// job-applied
+Route::get('/job_applied', [JobController::class, 'applied'])->name('job.applied');
+
+// job-applied-delete
+Route::delete('/job_applied/{id}', [JobController::class, 'removeApplication'])->name('remove.application');
+
 
 // ADMIN
 Route::resource('/roles', RoleController::class);

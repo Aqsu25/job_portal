@@ -137,12 +137,9 @@
                                                     <i class="fa fa-usd text-success"></i>
                                                     {{ $job->salary ?? 'N/A' }}
                                                 </span>
-                                             
                                             </div>
-
-
                                             <div class="mt-auto d-grid">
-                                                <a href=""
+                                                <a href="{{ route('job_portal.detail', $job->id) }}"
                                                     class="px-8 py-2 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-700 transition text-center text-decoration-none">View
                                                     Details</a>
                                             </div>

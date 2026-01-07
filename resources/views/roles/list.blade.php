@@ -12,7 +12,7 @@
                             {{ __('Roles') }}
                         </h2>
                         <a href="{{ route('roles.create') }}"
-                            class="bg-blue-700  border text-decoration-none text-white rounded-md px-3 py-2 font-bond hover:bg-blue-600">Create</a>
+                            class="bg-blue-500  border text-decoration-none text-white rounded-md px-3 py-2 font-bond hover:bg-blue-700">Create</a>
         
                     </div>
                     <table class="w-full">

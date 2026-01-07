@@ -1,114 +1,182 @@
 @extends('homes.header')
 
 @section('main')
-  <div class="min-h-screen bg-gray-100 py-10">
-    <div class="max-w-7xl mx-auto px-4">
+    <section class="bg-gray-100 py-6">
+        <div class="container">
 
-      <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            <nav class="mb-4">
+                <a href="{{ route('find.jobs') }}" class="text-blue-500 text-sm text-decoration-none">
+                    <i class="fa fa-arrow-left"></i> Back to Jobs
+                </a>
+            </nav>
+            <x-message></x-message>
+            <div class="row g-4">
 
-        <!-- LEFT SIDEBAR -->
-        <aside class="lg:col-span-1 space-y-6">
+                <div class="col-lg-8">
 
-          <!-- Company Summary -->
-          <div class="bg-white p-5 rounded-lg shadow">
-            <h3 class="text-lg font-semibold mb-4 border-b pb-2">
-              Company Summary
-            </h3>
+                    <div class="card border-0 shadow-sm p-5">
 
-            <p class="text-sm text-gray-700">
-              <strong>Name:</strong> {{ $job->company_name }}
-            </p>
-            <p class="text-sm text-gray-700 mt-2">
-              <strong>Location:</strong> {{ $job->location }}
-            </p>
-            <p class="text-sm text-gray-700 mt-2">
-              <strong>Website:</strong>
-              <a href="#" class="text-blue-600 hover:underline">
-                Visit Company
-              </a>
-            </p>
-          </div>
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <div>
+                                <h2 class="fw-bold text-blue-500">
+                                    {{ $job->title }}
+                                </h2>
 
-          <!-- Job Summary -->
-          <div class="bg-white p-5 rounded-lg shadow">
-            <h3 class="text-lg font-semibold mb-4 border-b pb-2">
-              Job Summary
-            </h3>
+                                <div class="text-muted d-flex gap-4 mt-2">
+                                    <span>
+                                        <i class="fa-solid fa-location-dot text-danger"></i>
+                                        {{ $job->location }}
+                                    </span>
 
-            <p class="text-sm text-gray-700">
-              <strong>Job Type:</strong> {{ $job->job_type }}
-            </p>
-            <p class="text-sm text-gray-700 mt-2">
-              <strong>Experience:</strong> {{ $job->experience }} Years
-            </p>
-            <p class="text-sm text-gray-700 mt-2">
-              <strong>Salary:</strong> {{ $job->salary ?? 'Negotiable' }}
-            </p>
-            <p class="text-sm text-gray-700 mt-2">
-              <strong>Vacancy:</strong> {{ $job->vacancy }}
-            </p>
-          </div>
+                                    <span>
+                                        <i class="fa fa-briefcase text-warning"></i>
+                                        {{ optional($job->type)->name }}
+                                    </span>
+                                </div>
+                            </div>
 
-        </aside>
+                            <a href="#" class="text-danger fs-5">
+                                <i class="fa-solid fa-heart"></i>
+                            </a>
+                        </div>
 
-        <!-- RIGHT MAIN CONTENT -->
-        <section class="lg:col-span-3 bg-white p-8 rounded-lg shadow">
+                        <hr>
 
-          <!-- Job Title -->
-          <h1 class="text-2xl font-bold text-gray-800 mb-2">
-            {{ $job->title }}
-          </h1>
+                        @if ($job->description)
+                            <div class="mb-4">
+                                <h5 class="fw-bold mb-2">Job Description</h5>
+                                <p class="text-muted">{{ $job->description }}</p>
+                            </div>
+                        @endif
 
-          <p class="text-sm text-gray-500 mb-6">
-            Posted on {{ $job->created_at->format('d M Y') }}
-          </p>
+                        @if ($job->responsibility)
+                            <div class="mb-4">
+                                <h5 class="fw-bold mb-2">Responsibilities</h5>
+                                <ul class="list-unstyled text-muted">
+                                    <li class="mb-2">
+                                        <i class="fa fa-check-circle text-blue-500 me-2"></i>
+                                        {{ $job->responsibility }}
+                                    </li>
+                                </ul>
+                            </div>
+                        @endif
 
-          <!-- Job Description -->
-          <div class="mb-6">
-            <h2 class="text-lg font-semibold mb-2">
-              Job Description
-            </h2>
-            <p class="text-gray-700 leading-relaxed">
-              {{ $job->description }}
-            </p>
-          </div>
+                        @if ($job->qualifications)
+                            <div class="mb-4">
+                                <h5 class="fw-bold mb-2">Qualifications</h5>
+                                <ul class="list-unstyled text-muted">
+                                    <li class="mb-2">
+                                        <i class="fa fa-check-circle text-blue-500 me-2"></i>
+                                        {{ $job->qualifications }}
+                                    </li>
+                                </ul>
+                            </div>
+                        @endif
 
-          <!-- Responsibilities -->
-          <div class="mb-6">
-            <h2 class="text-lg font-semibold mb-2">
-              Responsibilities
-            </h2>
-            <ul class="list-disc list-inside text-gray-700 space-y-1">
-              <li>Develop and maintain web applications</li>
-              <li>Collaborate with team members</li>
-              <li>Write clean and maintainable code</li>
-            </ul>
-          </div>
+                        @if ($job->benefits)
+                            <div class="mb-4">
+                                <h5 class="fw-bold mb-2">Benefits</h5>
+                                <p class="text-muted">{{ $job->benefits }}</p>
+                            </div>
+                        @endif
 
-          <!-- Requirements -->
-          <div class="mb-6">
-            <h2 class="text-lg font-semibold mb-2">
-              Requirements
-            </h2>
-            <ul class="list-disc list-inside text-gray-700 space-y-1">
-              <li>Laravel experience required</li>
-              <li>Knowledge of MySQL</li>
-              <li>Good communication skills</li>
-            </ul>
-          </div>
+                        <hr>
 
-          <!-- Apply Button -->
-          <div class="mt-8">
-            <a href="#"
-              class="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition">
-              Apply Now
-            </a>
-          </div>
+                        <div class="text-end">
+                            <a href="#"
+                                class="mx-2 bg-gray-500  border text-decoration-none text-white rounded-md px-3 py-2 font-bond hover:bg-gray-700">
+                                Save Job
+                            </a>
 
-        </section>
+                            @auth
+                                <a href="{{ route('apply.job', $job->id) }}"
+                                    onclick="return confirm('Are you sure you want to apply in this job?')"
+                                    class="bg-blue-500  border text-decoration-none text-white rounded-md px-3 py-2 font-bond hover:bg-blue-700">
+                                    Apply Now
+                                </a>
+                            @else
+                                <a href="{{ route('login') }}" class="btn btn-blue-500 btn-sm">
+                                    Login to Apply
+                                </a>
+                            @endauth
+                        </div>
 
-      </div>
+                    </div>
+                </div>
 
-    </div>
-  </div>
+                <div class="col-lg-4">
+
+                    <div class="card border-0 shadow-sm mb-4 p-4">
+                        <h5 class="fw-bold mb-3">Job Summary</h5>
+
+                        <ul class="list-unstyled text-muted small">
+                            <li class="mb-2">
+                                <i class="fa fa-calendar text-blue-500 me-2"></i>
+                                Posted:
+                                <strong>{{ $job->created_at->format('d M, Y') }}</strong>
+                            </li>
+                            @if (!empty($job->type->name))
+                                <li class="mb-2">
+                                    <i class="fa fa-clock text-blue-500 me-2"></i>
+                                    Job Type:
+                                    <strong>{{ optional($job->type)->name }}</strong>
+                                </li>
+                            @endif
+                            @if (!empty($job->location))
+                                <li class="mb-2">
+                                    <i class="fa fa-map-marker-alt text-blue-500 me-2"></i>
+                                    Location:
+                                    <strong>{{ $job->location }}</strong>
+                                </li>
+                            @endif
+                            @if (!empty($job->salary))
+                                <li class="mb-2">
+                                    <i class="fa fa-money-bill text-blue-500 me-2"></i>
+                                    Salary:
+                                    <strong>{{ $job->salary ?? 'Not Disclosed' }}</strong>
+                                </li>
+                            @endif
+                        </ul>
+                    </div>
+
+                    <div class="card border-0 shadow-sm p-4">
+                        <h5 class="fw-bold mb-3">Company Details</h5>
+
+                        <ul class="list-unstyled text-muted small">
+                            @if (!empty($job->company->name))
+                                <li class="mb-2">
+                                    <i class="fa fa-building text-blue-500 me-2"></i>
+                                    {{ $job->company->name ?? 'N/A' }}
+                                </li>
+                            @endif
+                            @if (!empty($job->company->email))
+                                <li class="mb-2">
+                                    <i class="fa fa-envelope text-blue-500 me-2"></i>
+                                    {{ $job->company->email ?? 'N/A' }}
+                                </li>
+                            @endif
+                            @if (!empty($job->company->location))
+                                <li>
+                                    <i class="fa fa-map-marker-alt text-blue-500 me-2"></i>
+                                    {{ $job->company->location ?? 'N/A' }}
+                                </li>
+                            @endif
+                            @if (!empty($job->company->website))
+                                <li class="mt-1">
+                                    <a href="" class="text-decoration-none">
+
+                                        <i class="fa fa-globe text-blue-500 me-2"></i>
+
+                                        {{ $job->company->website ?? 'N/A' }}
+                                    </a>
+                                </li>
+                            @endif
+                        </ul>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
 @endsection

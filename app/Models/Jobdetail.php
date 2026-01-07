@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Jobdetail extends Model
 {
     use HasFactory;
-    protected $fillable = ['title', 'vacancy', 'salary', 'location', 'description', 'company_id', 'category_id', 'type_id', 'benefits', 'responsibility', 'qualifications', 'keywords','experience','user_id','status','isFeatured'];
+    protected $fillable = ['title', 'vacancy', 'salary', 'location', 'description', 'company_id', 'category_id', 'type_id', 'benefits', 'responsibility', 'qualifications', 'keywords', 'experience', 'user_id', 'status', 'isFeatured'];
     // company
     public function company()
     {
@@ -25,4 +25,10 @@ class Jobdetail extends Model
         return $this->belongsTo(Type::class);
     }
 
+    // application
+    public function application()
+    {
+        return $this->hasMany(Application::class);
+    }
 }
+ 

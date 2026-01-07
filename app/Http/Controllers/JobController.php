@@ -2,13 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\JobEmailNotification;
+use App\Models\Applicatio;
+use App\Models\Application;
 use App\Models\Category;
 use App\Models\Company;
 use App\Models\Jobdetail;
 use App\Models\Type;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+
+use function Symfony\Component\Clock\now;
 
 class JobController extends Controller
 {
@@ -209,8 +216,73 @@ class JobController extends Controller
         return view('jobs.findJobs', compact('categories', 'types', 'jobdetails'));
     }
 
-    public function detail()
+    public function detail($id)
     {
-        return view('jobs.detail');
+        $job = Jobdetail::findOrFail($id);
+        return view('jobs.detail', compact('job'));
+    }
+
+    public function applyjob($id)
+    {
+        $job = Jobdetail::findOrFail($id);
+        $employer_id = $job->user_id;
+        $userId = Auth::id();
+
+        if ($job->user_id == $userId) {
+            return redirect()
+                ->route('job_portal.detail', $id)
+                ->with('error', 'You cannot apply to your own job!');
+        }
+
+        $alreadyApplied = Application::where('user_id', $userId)
+            ->where('jobdetail_id', $id)
+            ->exists();
+
+        if ($alreadyApplied) {
+            return redirect()
+                ->route('job_portal.detail', $id)
+                ->with('error', 'You already applied!');
+        }
+
+        Application::create([
+            'user_id' => $userId,
+            'jobdetail_id' => $id,
+            'employer_id' => $job->user_id,
+            'applied_date' => now(),
+        ]);
+        $employer_id = User::where('id', $employer_id)->first();
+        // $mailData = [
+        //     'employer' => $employer_id,
+        //     'user' => Auth::user(),
+        //     'job' => $job,
+
+        // ];
+
+        // Mail::to()->send(new JobEmailNotification($mailData));
+
+        return redirect()
+            ->route('job_portal.detail', $id)
+            ->with('success', 'You successfully applied for this job!');
+    }
+    public function applied()
+    {
+        $jobApplications = Application::where('user_id', Auth::id())->with(['job', 'job.type'])->paginate(5);
+        return view('jobs.applied', compact('jobApplications'));
+    }
+
+    public function removeApplication($id)
+    {
+        $jobApplication = Application::findOrFail($id);
+
+        if ($jobApplication) {
+            $jobApplication->delete();
+            return redirect()
+                ->route('remove.application',)
+                ->with('success', 'Your application is successfully deleted!');
+        } else {
+            return redirect()
+                ->route('remove.application')
+                ->with('error', 'Job Application Not Found!');
+        }
     }
 }
