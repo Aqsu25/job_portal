@@ -5,6 +5,7 @@
     <div class="max-w-7xl mx-auto px-4">
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
             <!-- Breadcrumb -->
             <div class="mb-6 text-sm text-gray-500">
                 <a href="{{ route('home') }}" class="text-blue-600 hover:underline">Home</a>
@@ -12,6 +13,8 @@
                 <span class=text-gray-700">Post a Job</span>
             </div>
 =======
+=======
+>>>>>>> Stashed changes
       <!-- Breadcrumb -->
       <div class="mb-6 text-sm text-gray-500">
         <x-message />
@@ -19,6 +22,7 @@
         <span class="mx-2">/</span>
         <span class="font-medium text-gray-700">Post a Job</span>
       </div>
+<<<<<<< Updated upstream
 >>>>>>> Stashed changes
 
       <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -133,6 +137,14 @@
                 <p>{{ $jobs->links() }}</p>
             </div>
 =======
+        <!-- Sidebar -->
+        <div class="md:col-span-1">
+          @include('users.sidebar')
+>>>>>>> Stashed changes
+=======
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+
         <!-- Sidebar -->
         <div class="md:col-span-1">
           @include('users.sidebar')

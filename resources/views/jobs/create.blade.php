@@ -2,8 +2,13 @@
 
 @section('main')
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     <div class="min-h-screen py-10">
         <div class="max-w-7xl mx-auto px-4">
+=======
+  <div class="min-h-screen bg-gray-50 py-10">
+    <div class="max-w-7xl mx-auto px-4">
+>>>>>>> Stashed changes
 =======
   <div class="min-h-screen bg-gray-50 py-10">
     <div class="max-w-7xl mx-auto px-4">
@@ -19,6 +24,7 @@
 
       <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
 
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
                 <!-- Sidebar -->
                 <div class="md:col-span-1">
@@ -251,6 +257,11 @@
                     </div>
                 </div>
             </div>
+=======
+        <!-- Sidebar -->
+        <div class="md:col-span-1">
+          @include('users.sidebar')
+>>>>>>> Stashed changes
 =======
         <!-- Sidebar -->
         <div class="md:col-span-1">

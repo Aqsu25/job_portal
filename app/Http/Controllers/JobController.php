@@ -13,7 +13,10 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 use Illuminate\Support\Facades\Mail;
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 use Illuminate\Support\Facades\Validator;
@@ -28,7 +31,11 @@ class JobController extends Controller
     public function index()
     {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         $jobs = Jobdetail::orderBy('created_at', 'DESC')->where('user_id', Auth::user()->id)->with('type')->paginate(10);
+=======
+        $jobs = Jobdetail::where('user_id', Auth::user()->id)->paginate(5);
+>>>>>>> Stashed changes
 =======
         $jobs = Jobdetail::where('user_id', Auth::user()->id)->paginate(5);
 >>>>>>> Stashed changes
@@ -57,9 +64,12 @@ class JobController extends Controller
             'title'           => 'required|string|min:5|max:200',
             'vacancy'         => 'required|integer|min:1',
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
             'location'        => 'required|string|min:3',
             'experience'      => 'required',
 =======
+=======
+>>>>>>> Stashed changes
             'salary'          => 'nullable|string|min:3',
             'location'        => 'required|string|max:50',
             'description'     => 'nullable|string|min:10',
