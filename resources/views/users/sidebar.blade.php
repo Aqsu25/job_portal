@@ -49,16 +49,16 @@
 
 <!-- MENU -->
 <div class="bg-white shadow p-4 space-y-2 text-decoration-none">
-    <a href="#" class="block px-4 py-2 rounded-lg bg-blue-50 text-blue-400 font-medium text-decoration-none">
+    <a href="{{route('myprofile')}}" class="block px-4 py-2 rounded-lg bg-blue-50 text-blue-400 font-medium text-decoration-none">
         Account Settings
     </a>
     <a href="{{route('job_portal.create')}}" class="block px-4 py-2 rounded-lg hover:bg-gray-100 text-black text-decoration-none">
         Posts a Job
     </a>
-    <a href="#" class="block px-4 py-2 rounded-lg hover:bg-gray-100 text-black text-decoration-none">
+    <a href="{{route('job.applied')}}" class="block px-4 py-2 rounded-lg hover:bg-gray-100 text-black text-decoration-none">
         Jobs Applied
     </a>
-    <a href="#" class="block px-4 py-2 rounded-lg hover:bg-gray-100 text-black text-decoration-none">
+    <a href="{{route('job_portal.index')}}" class="block px-4 py-2 rounded-lg hover:bg-gray-100 text-black text-decoration-none">
         My Jobs
     </a>
     <a href="#" class="block px-4 py-2 rounded-lg hover:bg-gray-100 text-black text-decoration-none">
