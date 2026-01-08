@@ -1,7 +1,7 @@
 @extends('homes.header')
 
 @section('main')
-    <div class="min-h-screen bg-gray-50 py-10">
+    <div class="min-h-screen bg-gray-100 py-10">
         <div class="max-w-7xl mx-auto px-4">
 
 
@@ -9,7 +9,7 @@
             <div class="mb-6 text-sm text-gray-500 ms-2">
                 <a href="{{ route('home') }}" class="text-blue-600 hover:underline text-decoration-none">Home</a>
                 <span class="mx-2">/</span>
-                <span class="text-gray-700">Post a Job</span>
+                <span class="text-gray-700">Saved Jobs</span>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
 
@@ -20,16 +20,13 @@
 
                 <!-- Main Content -->
                 <div class="md:col-span-3">
+                    <x-message></x-message>
                     <div class="bg-white shadow-lg rounded-xl p-8">
                         <!-- Heading -->
-                        <x-message></x-message>
                         <div class="flex justify-between items-center gap-4">
                             <h2 class="text-2xl font-semibold text-gray-800">
-                                My Jobs
+                                Saved Jobs
                             </h2>
-                            <a href="{{ route('job_portal.create') }}"
-                                class="bg-blue-500  border text-decoration-none text-white rounded-md px-3 py-2 font-bond hover:bg-blue-600">Post
-                                a Job</a>
                         </div>
                         <div class="mt-4">
 
@@ -45,39 +42,39 @@
                                 </thead>
 
                                 <tbody class="text-sm">
-                                    @forelse ($jobs as $job)
+                                    @forelse ($saveJobs as $saveJob)
                                         <tr class="border-b hover:bg-gray-50">
 
                                             <td class="p-3 text-gray-900">
                                                 <div class="flex flex-col space-y-1">
                                                     <!-- Job Title -->
                                                     <p class="text-gray-800 hover:text-blue-600 transition">
-                                                        {{ $job->title }}
+                                                        {{ optional($saveJob->job)->title }}
                                                     </p>
 
                                                     <!-- Type & Location -->
                                                     <div class="flex items-center space-x-2 mt-1">
                                                         <!-- Type Badge -->
                                                         <span class=" py-1 text-xs font-medium text-blue-800l">
-                                                            {{ $job->type->name }}&nbsp;.
+                                                            {{ optional($saveJob->job->type)->name }}&nbsp;.
                                                         </span>
 
                                                         <!-- Location -->
                                                         <span class="text-gray-500 text-sm">
-                                                            {{ $job->location }}
+                                                            {{ optional($saveJob->job)->location }}
                                                         </span>
                                                     </div>
                                                 </div>
                                             </td>
 
                                             <td class="p-3 text-gray-900">
-                                                {{ \Carbon\Carbon::parse($job->created_at)->format('d M,Y') }}
+                                                {{ \Carbon\Carbon::parse($saveJob->created_at)->format('d M,Y') }}
                                             </td>
                                             <td class="p-3 text-gray-900">
-                                                0
+                                                {{ $saveJob->job->application->count() }} Applications
                                             </td>
                                             <td class="p-3 text-gray-900">
-                                                @if ($job->status == 1)
+                                                @if ($saveJob->job->status == 1)
                                                     <i class="fa-solid fa-check text-success"></i>
                                                 @else
                                                     <i class="fa-solid fa-xmark text-danger"></i>
@@ -87,16 +84,15 @@
                                             </td>
                                             <td class="p-3">
                                                 <div class="flex gap-3">
-                                                    <a href="{{ route('job_portal.edit', $job->id) }}"
-                                                        class="text-blue-600 hover:text-blue-800">
-                                                        <i class="fas fa-edit"></i>
-                                                    </a>
+                                                    <a href="{{ route('job_portal.detail', $saveJob->id) }}"
+                                                        class="text-blue-500 hover:text-blue-800">
+                                                        <i class="fa-solid fa-eye"></i> </a>
 
-                                                    <form action="{{ route('job_portal.destroy', $job->id) }}"
-                                                        method="POST" onsubmit="return confirm('Are you sure?')">
+                                                    <form action="{{ route('removeSave.job', $saveJob->id) }}"
+                                                        method="POST" onsubmit="return confirm('Are you sure you want to unsave?')">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="text-red-600 hover:text-red-800">
+                                                        <button type="submit" class="text-red-500 hover:text-red-800">
                                                             <i class="fas fa-trash"></i>
                                                         </button>
                                                     </form>
@@ -119,7 +115,7 @@
                 </div>
             </div>
             <div class="mt-2">
-                <p>{{ $jobs->links() }}</p>
+                <p>{{ $saveJobs->links() }}</p>
             </div>
         </div>
     </div>

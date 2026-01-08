@@ -38,18 +38,19 @@
                 <!-- Desktop Menu -->
                 <div class="hidden md:flex items-center space-x-8 font-medium">
                     <a href="{{ route('home') }}"
-                        class="flex items-center gap-2 text-gray-600 hover:text-blue-600 transition">
+                        class="flex items-center gap-2 text-gray-600 text-decoration-none hover:text-blue-600 transition">
                         Home
                     </a>
                     <a href="{{ route('job_portal.index') }}"
-                        class="flex items-center gap-2 text-gray-600 hover:text-blue-600 transition">
+                        class="flex items-center gap-2 text-gray-600 text-decoration-none hover:text-blue-600 transition">
                         Jobs
                     </a>
                     <a href="{{ route('companies.index') }}"
-                        class="flex items-center gap-2 text-gray-600 hover:text-blue-600 transition">
+                        class="flex items-center gap-2 text-gray-600 text-decoration-none hover:text-blue-600 transition">
                         Companies
                     </a>
-                    <a href="#" class="flex items-center gap-2 text-gray-600 hover:text-blue-600 transition">
+                    <a href="#"
+                        class="flex items-center gap-2 text-gray-600 text-decoration-none hover:text-blue-600 transition">
                         About
                     </a>
                 </div>
@@ -70,7 +71,7 @@
                             Login
                         </a> --}}
                         <a href="{{ route('login') }}"
-                            class="bg-blue-400 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition font-medium">
+                            class="text-decoration-none bg-blue-400 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition font-medium">
                             Login
                         </a>
                     @endif
@@ -121,10 +122,10 @@
     <section>
         @yield('featured')
     </section>
-      <section>
+    <section>
         @yield('latest')
     </section>
-    
+
 
     <!-- Footer -->
     <footer class="bg-gray-900 text-gray-300 mt-12">
@@ -146,11 +147,11 @@
             <div>
                 <h3 class="text-white font-semibold mb-4">Quick Links</h3>
                 <ul class="space-y-2">
-                    <li><a href="{{ route('home') }}" class="hover:text-blue-500 transition">Home</a></li>
-                    <li><a href="#" class="hover:text-blue-500 transition">Jobs</a></li>
-                    <li><a href="#" class="hover:text-blue-500 transition">Companies</a></li>
-                    <li><a href="#" class="hover:text-blue-500 transition">About</a></li>
-                    <li><a href="#" class="hover:text-blue-500 transition">Contact</a></li>
+                    <li><a href="{{ route('home') }}" class="hover:text-blue-500 transition text-decoration-none">Home</a></li>
+                    <li><a href="#" class="hover:text-blue-500 transition text-decoration-none">Jobs</a></li>
+                    <li><a href="#" class="hover:text-blue-500 transition text-decoration-none">Companies</a></li>
+                    <li><a href="#" class="hover:text-blue-500 transition text-decoration-none">About</a></li>
+                    <li><a href="#" class="hover:text-blue-500 transition text-decoration-none">Contact</a></li>
                 </ul>
             </div>
 
@@ -158,10 +159,12 @@
             <div>
                 <h3 class="text-white font-semibold mb-4">Resources</h3>
                 <ul class="space-y-2">
-                    <li><a href="#" class="hover:text-blue-500 transition">Blog</a></li>
-                    <li><a href="#" class="hover:text-blue-500 transition">FAQ</a></li>
-                    <li><a href="#" class="hover:text-blue-500 transition">Terms of Service</a></li>
-                    <li><a href="#" class="hover:text-blue-500 transition">Privacy Policy</a></li>
+                    <li><a href="#" class="hover:text-blue-500 transition text-decoration-none">Blog</a></li>
+                    <li><a href="#" class="hover:text-blue-500 transition text-decoration-none">FAQ</a></li>
+                    <li><a href="#" class="hover:text-blue-500 transition text-decoration-none">Terms of
+                            Service</a></li>
+                    <li><a href="#" class="hover:text-blue-500 transition text-decoration-none">Privacy Policy</a>
+                    </li>
                 </ul>
             </div>
 
@@ -188,7 +191,7 @@
 
         </div>
 
-        <div class="border-t border-gray-800 mt-8 pt-6 text-center text-white mb-5 text-sm">
+        <div class="border-t border-gray-800 mt-8 pt-6 text-center text-white mb-5 text-sm py-3">
             &copy; 2025 <span class="font-semibold text-white">JobConnect</span>. All rights reserved.
         </div>
     </footer>

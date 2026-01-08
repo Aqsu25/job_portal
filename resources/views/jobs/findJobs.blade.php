@@ -136,6 +136,7 @@
                                                 <span class="d-flex align-items-center gap-1">
                                                     <i class="fa fa-usd text-success"></i>
                                                     {{ $job->salary ?? 'N/A' }}
+                                                    {{$job->category->name ?? 'N/A'}}
                                                 </span>
                                             </div>
                                             <div class="mt-auto d-grid">

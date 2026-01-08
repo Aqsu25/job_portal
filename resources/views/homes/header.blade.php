@@ -104,7 +104,7 @@
         </div>
     </nav>
     {{-- main --}}
-    <section class="py-3 bg-gray-50">
+    <section class="py-3 bg-gray-100">
         @yield('main')
     </section>
 

@@ -34,12 +34,32 @@
                                     </span>
                                 </div>
                             </div>
+                            {{-- like-job --}}
+                            @auth
+                                <form action="{{ route('job.like', $job->id) }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="">
+                                        @if ($job->liked(Auth::id()))
+                                            <i class="fa-solid fa-heart text-red-500"></i>
+                                            {{ $job->likes->count() }}
+                                        @else
+                                            <i class="fa-regular fa-heart"></i>
+                                            {{ $job->likes->count() }}
+                                        @endif
+                                    </button>
+                                </form>
 
-                            <a href="#" class="text-danger fs-5">
-                                <i class="fa-solid fa-heart"></i>
-                            </a>
+                            @endauth
+
+                            @guest
+                                <a href="{{ route('login') }}" class="text-red-500 text-sm">
+                                    <i class="fa-regular fa-heart">
+                                        {{ $job->likes->count() }}
+                                    </i>
+                                </a>
+                            @endguest
+
                         </div>
-
                         <hr>
 
                         @if ($job->description)
@@ -83,20 +103,20 @@
                         <hr>
 
                         <div class="text-end">
-                            <a href="#"
-                                class="mx-2 bg-gray-500  border text-decoration-none text-white rounded-md px-3 py-2 font-bond hover:bg-gray-700">
-                                Save Job
-                            </a>
-
                             @auth
+                                <a href="{{ route('job.save', $job->id) }}"
+                                    class="mx-2 bg-gray-500  border text-decoration-none text-white rounded-md px-3 py-2 font-bond hover:bg-gray-700">
+                                    Save Job
+                                </a>
                                 <a href="{{ route('apply.job', $job->id) }}"
                                     onclick="return confirm('Are you sure you want to apply in this job?')"
                                     class="bg-blue-500  border text-decoration-none text-white rounded-md px-3 py-2 font-bond hover:bg-blue-700">
                                     Apply Now
                                 </a>
                             @else
-                                <a href="{{ route('login') }}" class="btn btn-blue-500 btn-sm">
-                                    Login to Apply
+                                <a href="{{ route('login') }}"
+                                    class="bg-blue-500  border text-decoration-none text-white rounded-md px-3 py-2 font-bond hover:bg-blue-700">
+                                    Login to Apply/Save
                                 </a>
                             @endauth
                         </div>

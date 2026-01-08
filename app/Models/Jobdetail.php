@@ -30,5 +30,19 @@ class Jobdetail extends Model
     {
         return $this->hasMany(Application::class);
     }
+    // like
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
+    // likedbyuser
+    public function liked($userId)
+    {
+        return $this->likes()->where('user_id', $userId)->exists();
+    }
+    // savejob
+    public function saveJob()
+    {
+        return $this->hasMany(SaveJob::class);
+    }
 }
- 

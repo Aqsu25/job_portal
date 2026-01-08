@@ -61,7 +61,7 @@
     <a href="{{route('job_portal.index')}}" class="block px-4 py-2 rounded-lg hover:bg-gray-100 text-black text-decoration-none">
         My Jobs
     </a>
-    <a href="#" class="block px-4 py-2 rounded-lg hover:bg-gray-100 text-black text-decoration-none">
+    <a href="{{route('job.savepage')}}" class="block px-4 py-2 rounded-lg hover:bg-gray-100 text-black text-decoration-none">
         Saved Jobs
     </a>
 </div>

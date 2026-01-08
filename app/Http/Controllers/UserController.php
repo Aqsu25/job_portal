@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Jobdetail;
+use App\Models\Like;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Role;
 
@@ -95,5 +97,23 @@ class UserController extends Controller
         $isFeatured = Jobdetail::where('status', 1)->orderBy('created_at', 'DESC')->where('isFeatured', 1)->with('type')->take(4)->get();
         $latestJob = Jobdetail::where('status', 1)->orderBy('created_at', 'DESC')->get();
         return view('homes.home', compact('categories', 'isFeatured', 'latestJob'));
+    }
+
+    public function likejobpost($id)
+    {
+        // dd($id);
+
+        $userId = Auth::id();
+        $count = Like::where('user_id', $userId)->where('jobdetail_id', $id)->first();
+        if ($count) {
+            $count->delete();
+            return redirect()->route('job_portal.detail', $id)->with('success', 'UnLiked Successfully!');
+        } else {
+            Like::create([
+                'user_id' => $userId,
+                'jobdetail_id' => $id,
+            ]);
+            return redirect()->route('job_portal.detail', $id)->with('success', 'Like Added Successfully!');
+        }
     }
 }

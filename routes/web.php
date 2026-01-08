@@ -63,6 +63,19 @@ Route::get('/job_applied', [JobController::class, 'applied'])->name('job.applied
 // job-applied-delete
 Route::delete('/job_applied/{id}', [JobController::class, 'removeApplication'])->name('remove.application');
 
+// saved-jobs
+Route::get('/save_job/{id}', [JobController::class, 'saveJob'])->name('job.save');
+
+// save-page
+Route::get('/savejob/page', [JobController::class, 'saveJobpage'])->name('job.savepage');
+
+Route::delete('/savejob/{id}/delete', [JobController::class, 'removeSave'])->name('removeSave.job');
+
+
+// job-like
+Route::post('/likejobpost/{id}', [UserController::class, 'likejobpost'])->name('job.like');
+
+
 
 // ADMIN
 Route::resource('/roles', RoleController::class);

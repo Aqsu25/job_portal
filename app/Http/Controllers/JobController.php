@@ -8,17 +8,14 @@ use App\Models\Application;
 use App\Models\Category;
 use App\Models\Company;
 use App\Models\Jobdetail;
+use App\Models\SaveJob;
 use App\Models\Type;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
+
 use Illuminate\Support\Facades\Mail;
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
+
 use Illuminate\Support\Facades\Validator;
 
 use function Symfony\Component\Clock\now;
@@ -30,15 +27,13 @@ class JobController extends Controller
      */
     public function index()
     {
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
+
         $jobs = Jobdetail::orderBy('created_at', 'DESC')->where('user_id', Auth::user()->id)->with('type')->paginate(10);
-=======
+
         $jobs = Jobdetail::where('user_id', Auth::user()->id)->paginate(5);
->>>>>>> Stashed changes
-=======
+
         $jobs = Jobdetail::where('user_id', Auth::user()->id)->paginate(5);
->>>>>>> Stashed changes
+
         return view('jobs.list', compact('jobs'));
     }
 
@@ -63,13 +58,10 @@ class JobController extends Controller
         $validator = Validator::make($request->all(), [
             'title'           => 'required|string|min:5|max:200',
             'vacancy'         => 'required|integer|min:1',
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
+
             'location'        => 'required|string|min:3',
             'experience'      => 'required',
-=======
-=======
->>>>>>> Stashed changes
+
             'salary'          => 'nullable|string|min:3',
             'location'        => 'required|string|max:50',
             'description'     => 'nullable|string|min:10',
@@ -77,7 +69,7 @@ class JobController extends Controller
             'responsibility'  => 'nullable|string|min:10',
             'qualifications'  => 'nullable|string',
             'keywords'        => 'nullable|string',
->>>>>>> Stashed changes
+
             'company_id'     => 'required|exists:companies,id',
             'category_id'     => 'required|exists:categories,id',
             'type_id'         => 'required|exists:types,id',
@@ -313,5 +305,57 @@ class JobController extends Controller
                 ->route('remove.application')
                 ->with('error', 'Job Application Not Found!');
         }
+    }
+
+    // job
+    public function saveJobpage()
+    {
+        $saveJobs = SaveJob::where('user_id',Auth::user()->id)->with(['job', 'job.type'])->orderBy('created_at', 'ASC')->paginate(5);
+        return view('save.save', compact('saveJobs'));
+    }
+    
+    public function saveJob($id)
+    {
+        $job = Jobdetail::findOrFail($id);
+        $jobID = $job->id;
+        $userId = Auth::id();
+        // not save your own jobs
+        $ownJobs = $job::where('user_id', $userId)->where('id', $jobID)->exists();
+        if ($ownJobs) {
+            return redirect()
+                ->route('job_portal.detail', $id)
+                ->with('error', 'You cannot apply to your own job!');
+        }
+
+        // twicesave
+        $twiceSave = SaveJob::where('user_id', $userId)->where('jobdetail_id', $jobID)->count();
+        if ($twiceSave == '1') {
+            return redirect()
+                ->route('job_portal.detail', $id)
+                ->with('error', 'You already save this job!');
+        } else {
+            SaveJob::create([
+                'user_id' => $userId,
+                'jobdetail_id' => $jobID,
+            ]);
+            return redirect()
+                ->route('job_portal.detail', $id)
+                ->with('success', 'You successfully save the job!');
+        }
+    }
+
+    // remove-save-job
+    public function removeSave($id)
+    {
+        $saveJobs = SaveJob::findOrFail($id);
+        if ($saveJobs) {
+            $saveJobs->delete();
+            return redirect()
+                ->route('job.savepage')
+                ->with('success', 'You successfully remove the save job!');
+        }
+        return redirect()
+            ->route('job.savepage')
+            ->with('success', 'Not Found!');
     }
 }
