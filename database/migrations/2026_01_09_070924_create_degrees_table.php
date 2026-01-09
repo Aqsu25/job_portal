@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('save_jobs', function (Blueprint $table) {
+        Schema::create('degrees', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('jobdetail_id')->constrained()->onDelete('cascade');
+            $table->string('name');       // e.g., "BS Computer Science"
+            $table->string('level');      // e.g., "Bachelor"
+            $table->string('code')->nullable();
             $table->timestamps();
         });
     }
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('save_jobs');
+        Schema::dropIfExists('degrees');
     }
 };

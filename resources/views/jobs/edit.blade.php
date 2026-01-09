@@ -96,6 +96,29 @@
                                 </div>
 
                             </div>
+                            {{-- degree --}}
+                               <div class="">
+
+                                <!-- Category  -->
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">
+                                        Degree<span class="text-red-500">*</span>
+                                    </label>
+                                    <select name="degree_id" id=""
+                                        class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500">
+                                        <option value="">Select a Degree</option>
+                                        @foreach ($degrees as $degree)
+                                            <option value="{{ $degree->id }}"
+                                                {{ old('degree_id', $job->degree_id) == $degree->id ? 'selected' : '' }}>
+                                                {{ $degree->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('company_id')
+                                        <p class="text-red-500">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                            </div>
 
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 

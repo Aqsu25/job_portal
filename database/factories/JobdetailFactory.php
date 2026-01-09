@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Category;
 use App\Models\Company;
+use App\Models\Degree;
 use App\Models\Type;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -22,7 +23,8 @@ class JobdetailFactory extends Factory
     {
         return [
             'title' => fake()->jobTitle(),
-            'user_id' => User::inRandomOrder()->value('id'),
+            'employer_id' => User::inRandomOrder()->value('id'),
+            'degree_id' => Degree::inRandomOrder()->value('id'),
             'vacancy' => rand(1, 5),
             'location' => fake()->city,
             'category_id' => Category::inRandomOrder()->value('id'),
@@ -30,6 +32,8 @@ class JobdetailFactory extends Factory
             'type_id' => Type::inRandomOrder()->value('id'),
             'description' => fake()->paragraph(),
             'experience' => rand(1, 5),
+            'keywords' => fake()->words(3, true),
+
         ];
     }
 }

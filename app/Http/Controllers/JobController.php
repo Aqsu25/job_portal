@@ -7,6 +7,7 @@ use App\Models\Applicatio;
 use App\Models\Application;
 use App\Models\Category;
 use App\Models\Company;
+use App\Models\Degree;
 use App\Models\Jobdetail;
 use App\Models\SaveJob;
 use App\Models\Type;
@@ -27,12 +28,16 @@ class JobController extends Controller
      */
     public function index()
     {
+        if (auth()->user()->hasRole('admin')) {
+            $jobs = Jobdetail::orderBy('created_at', 'DESC')->paginate(3);
+            return view('admin.joblist', compact('jobs'));
+        }
 
-        $jobs = Jobdetail::orderBy('created_at', 'DESC')->where('user_id', Auth::user()->id)->with('type')->paginate(10);
+        $jobs = Jobdetail::orderBy('created_at', 'DESC')->where('employer_id', Auth::user()->id)->with('type')->paginate(10);
 
-        $jobs = Jobdetail::where('user_id', Auth::user()->id)->paginate(5);
+        $jobs = Jobdetail::where('employer_id', Auth::user()->id)->paginate(5);
 
-        $jobs = Jobdetail::where('user_id', Auth::user()->id)->paginate(5);
+        $jobs = Jobdetail::where('employer_id', Auth::user()->id)->paginate(5);
 
         return view('jobs.list', compact('jobs'));
     }
@@ -45,7 +50,9 @@ class JobController extends Controller
         $categories = Category::orderBy('created_at', 'DESC')->where('status', 1)->get();
         $jobNature = Type::orderBy('created_at', 'DESC')->where('status', 1)->get();
         $companies = Company::orderBy('created_at', 'DESC')->get();
-        return view('jobs.create', compact('categories', 'jobNature', 'companies'));
+        $degrees = Degree::orderBy('created_at', 'DESC')->get();
+
+        return view('jobs.create', compact('categories', 'jobNature', 'companies', 'degrees'));
     }
 
 
@@ -58,10 +65,8 @@ class JobController extends Controller
         $validator = Validator::make($request->all(), [
             'title'           => 'required|string|min:5|max:200',
             'vacancy'         => 'required|integer|min:1',
-
             'location'        => 'required|string|min:3',
             'experience'      => 'required',
-
             'salary'          => 'nullable|string|min:3',
             'location'        => 'required|string|max:50',
             'description'     => 'nullable|string|min:10',
@@ -69,7 +74,7 @@ class JobController extends Controller
             'responsibility'  => 'nullable|string|min:10',
             'qualifications'  => 'nullable|string',
             'keywords'        => 'nullable|string',
-
+            'degree_id' => 'required|exists:degrees,id',
             'company_id'     => 'required|exists:companies,id',
             'category_id'     => 'required|exists:categories,id',
             'type_id'         => 'required|exists:types,id',
@@ -79,12 +84,11 @@ class JobController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
-        // dd($request->all());
 
 
         Jobdetail::create([
             'title'          => $request->title,
-            'user_id' => Auth::user()->id,
+            'employer_id' => Auth::user()->id,
             'vacancy'        => $request->vacancy,
             'salary'         => $request->salary,
             'location'       => $request->location,
@@ -94,7 +98,8 @@ class JobController extends Controller
             'responsibility' => $request->responsibility,
             'qualifications' => $request->qualifications,
             'keywords'       => $request->keywords,
-            'user_id' => Auth::user()->id,
+            'employer_id' => Auth::user()->id,
+            'degree_id'      => $request->degree_id,      // add this in the form
             'company_id'     => $request->company_id,
             'category_id'    => $request->category_id,
             'type_id'        => $request->type_id,
@@ -123,7 +128,9 @@ class JobController extends Controller
         $categories = Category::orderBy('created_at', 'DESC')->where('status', 1)->get();
         $jobNature = Type::orderBy('created_at', 'DESC')->where('status', 1)->get();
         $companies = Company::orderBy('created_at', 'DESC')->get();
-        return view('jobs.edit', compact('job', 'categories', 'jobNature', 'companies'));
+        $degrees = Degree::orderBy('created_at', 'DESC')->get();
+
+        return view('jobs.edit', compact('job', 'categories', 'jobNature', 'companies', 'degrees'));
     }
 
     /**
@@ -160,7 +167,8 @@ class JobController extends Controller
             'responsibility' => $request->responsibility,
             'qualifications' => $request->qualifications,
             'keywords'       => $request->keywords,
-            'user_id' => Auth::user()->id,
+            'employer_id' => Auth::user()->id,
+            'degree_id'      => $request->degree_id,      // add this in the form
             'company_id'     => $request->company_id,
             'category_id'    => $request->category_id,
             'type_id'        => $request->type_id,
@@ -178,8 +186,8 @@ class JobController extends Controller
     public function destroy(string $id)
     {
         try {
-            $type = Type::findOrFail($id);
-            $type->delete();
+            $job = Jobdetail::findOrFail($id);
+            $job->delete();
 
             return redirect()
                 ->route('job_portal.index')
@@ -240,16 +248,17 @@ class JobController extends Controller
     public function detail($id)
     {
         $job = Jobdetail::findOrFail($id);
-        return view('jobs.detail', compact('job'));
+        $applicants = Application::where('jobdetail_id', $job->id)->orderBy('created_at', 'DESC')->with('user')->get();
+        return view('jobs.detail', compact('job', 'applicants'));
     }
 
     public function applyjob($id)
     {
         $job = Jobdetail::findOrFail($id);
-        $employer_id = $job->user_id;
+        $employer_id = $job->employer_id;
         $userId = Auth::id();
 
-        if ($job->user_id == $userId) {
+        if ($job->employer_id == $userId) {
             return redirect()
                 ->route('job_portal.detail', $id)
                 ->with('error', 'You cannot apply to your own job!');
@@ -266,21 +275,12 @@ class JobController extends Controller
         }
 
         Application::create([
-            'user_id' => $userId,
+            'employer_id' => $userId,
             'jobdetail_id' => $id,
-            'employer_id' => $job->user_id,
+            'employer_id' => $job->employer_id,
             'applied_date' => now(),
         ]);
         $employer_id = User::where('id', $employer_id)->first();
-        // $mailData = [
-        //     'employer' => $employer_id,
-        //     'user' => Auth::user(),
-        //     'job' => $job,
-
-        // ];
-
-        // Mail::to()->send(new JobEmailNotification($mailData));
-
         return redirect()
             ->route('job_portal.detail', $id)
             ->with('success', 'You successfully applied for this job!');
@@ -310,10 +310,10 @@ class JobController extends Controller
     // job
     public function saveJobpage()
     {
-        $saveJobs = SaveJob::where('user_id',Auth::user()->id)->with(['job', 'job.type'])->orderBy('created_at', 'ASC')->paginate(5);
+        $saveJobs = SaveJob::where('user_id', Auth::user()->id)->with(['job', 'job.type'])->orderBy('created_at', 'ASC')->paginate(5);
         return view('save.save', compact('saveJobs'));
     }
-    
+
     public function saveJob($id)
     {
         $job = Jobdetail::findOrFail($id);

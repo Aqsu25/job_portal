@@ -7,15 +7,15 @@
 
             <!-- Breadcrumb -->
             <div class="mb-6 text-sm text-gray-500 ms-2">
-                <a href="{{ route('home') }}" class="text-blue-600 hover:underline text-decoration-none">Home</a>
+                <a href="{{ route('home') }}" class="text-blue-600 hover:underline text-decoration-none">Admin Dashboard</a>
                 <span class="mx-2">/</span>
-                <span class="text-gray-700">Post a Job</span>
+                <span class="text-gray-700">Job</span>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
 
                 <!-- Sidebar -->
                 <div class="md:col-span-1">
-                    @include('users.sidebar')
+                    @include('admin.sidebar')
                 </div>
 
                 <!-- Main Content -->
@@ -25,11 +25,12 @@
                         <x-message></x-message>
                         <div class="flex justify-between items-center gap-4">
                             <h2 class="text-2xl font-semibold text-gray-800">
-                                My Jobs
+                                Jobs
                             </h2>
-                            <a href="{{ route('job_portal.create') }}"
+                             <a href="{{ route('job_portal.create') }}"
                                 class="bg-blue-500  border text-decoration-none text-white rounded-md px-3 py-2 font-bond hover:bg-blue-600">Post
                                 a Job</a>
+                           
                         </div>
                         <div class="mt-4">
 
@@ -114,12 +115,12 @@
 
                                 </tbody>
                             </table>
+                            <div class="mt-2">
+                                <p>{{ $jobs->links() }}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="mt-2">
-                <p>{{ $jobs->links() }}</p>
             </div>
         </div>
     </div>

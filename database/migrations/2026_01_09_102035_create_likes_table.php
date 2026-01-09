@@ -13,8 +13,16 @@ return new class extends Migration
     {
         Schema::create('likes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('jobdetail_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')
+                ->constrained()
+                ->onDelete('cascade');
+
+            $table->foreignId('jobdetail_id')
+                ->constrained('jobdetails')
+                ->onDelete('cascade');
+
+            // Prevent double like
+            $table->unique(['user_id', 'jobdetail_id']);
             $table->timestamps();
         });
     }

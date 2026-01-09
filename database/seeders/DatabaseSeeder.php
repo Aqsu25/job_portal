@@ -31,10 +31,11 @@ class DatabaseSeeder extends Seeder
         Category::factory(5)->create();
         Type::factory(5)->create();
         Company::factory(5)->create();
-        Jobdetail::factory(5)->create();
 
-         $this->call([
+        $this->call([
             RolePermissionSeeder::class,
+            DegreesSeeder::class,
         ]);
+        Jobdetail::factory(5)->create();
     }
 }

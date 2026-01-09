@@ -6,8 +6,10 @@ use App\Models\Category;
 use App\Models\Jobdetail;
 use App\Models\Like;
 use App\Models\User;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Role;
 
@@ -18,7 +20,14 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::orderBy('created_at', 'ASC')->get();
+
+        if (auth()->user()->hasRole('admin')) {
+
+            $users = User::orderBy('created_at', 'ASC')->with('profile')->paginate(3);
+        } else {
+
+            $users = User::where('id', Auth::user()->id)->orderBy('created_at', 'ASC')->with('profile')->paginate(5);
+        }
         return view('users.list', compact('users'));
     }
 
@@ -51,6 +60,7 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
+        Gate::authorize('update');
         $roles = Role::all();
         $user = User::findOrFail($id);
         return view('users.edit', compact('user', 'roles'));

@@ -46,7 +46,8 @@
                         class="flex items-center gap-2 text-gray-600 hover:text-blue-600 transition text-decoration-none">
                         Companies
                     </a>
-                    <a href="#" class="flex items-center gap-2 text-gray-600 hover:text-blue-600 transition text-decoration-none">
+                    <a href="#"
+                        class="flex items-center gap-2 text-gray-600 hover:text-blue-600 transition text-decoration-none">
                         About
                     </a>
                 </div>
@@ -54,13 +55,19 @@
                 <!-- Right Buttons -->
                 <div class="hidden md:flex items-center space-x-4">
                     @if (Auth::check())
-                        <a href="{{ route('myprofile') }}" class="text-gray-600 hover:text-blue-600 font-medium text-decoration-none">
-                            My Profile
-                        </a>
-                        <a href="{{ route('job_portal.create') }}"
-                            class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition font-medium text-decoration-none">
-                            Post a Job
-                        </a>
+                        @if (auth()->user()->hasRole('admin'))
+                            <a href="{{ route('admin.index') }}" class="btn btn-outline-primary">
+                                Admin
+                            </a>
+                        @else
+                            <a href="{{ route('myprofile') }}" class="btn btn-outline-primary">
+                                My Profile
+                            </a>
+                            <a href="{{ route('job_portal.create') }}"
+                                class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition font-medium text-decoration-none">
+                                Post a Job
+                            </a>
+                        @endif
                     @else
                         {{-- <a href="{{ route('login') }}" class="text-gray-600 hover:text-blue-600 font-medium">
                         </a> --}}

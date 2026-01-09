@@ -64,4 +64,15 @@ class User extends Authenticatable
     {
         return $this->hasMany(SaveJob::class);
     }
+    // application
+    public function application()
+    {
+        return $this->hasMany(Application::class);
+    }
+
+    // pivot-table
+    public function degree()
+    {
+        return $this->belongsToMany(Degree::class, 'degree_user', 'user_id', 'degree_id');
+    }
 }

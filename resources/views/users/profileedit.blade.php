@@ -34,8 +34,8 @@
                                 <label class="block text-sm font-medium text-gray-400 mb-1">
                                     Full Name*
                                 </label>
-                                <input type="text" name="name" value="{{ Auth::user()->name }}"
-                                    class="w-full rounded-lg border-gray-300 focus:border-blue-400 focus:ring-blue-400 mb-3">
+                                <input type="text" name="name" value="{{Auth::user()->name}}"
+                                    class="uppercase w-full rounded-lg border-gray-300 focus:border-blue-400 focus:ring-blue-400 mb-3">
                             </div>
 
                             <!-- EMAIL -->
@@ -75,7 +75,7 @@
                             <div class="pt-2">
                                 <button type="submit"
                                     class="px-6 py-2 border border-blue-400 text-white rounded-lg bg-blue-400 hover:bg-blue-700 transition font-medium">
-                                Save Profile
+                                    Save Profile
                                 </button>
                             </div>
                         </form>

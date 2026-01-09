@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\JobController;
@@ -81,8 +82,7 @@ Route::post('/likejobpost/{id}', [UserController::class, 'likejobpost'])->name('
 Route::resource('/roles', RoleController::class);
 Route::resource('/permissions', PermissionController::class);
 Route::middleware(['auth', 'admin'])->group(function () {
-    // roles
-    //   permissions
+    Route::resource('/admin', AdminController::class);
 });
 
 

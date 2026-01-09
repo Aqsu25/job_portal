@@ -23,12 +23,14 @@ return new class extends Migration
             $table->text('qualifications')->nullable();
             $table->string('experience');
             $table->integer('status')->default(1);
-            $table->integer('isFeatured')->default(0);
+            $table->boolean('isFeatured')->default(false);
             $table->text('keywords')->nullable();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('company_id')->constrained()->onDelete('cascade');
-            $table->foreignId('category_id')->constrained()->onDelete('cascade');
-            $table->foreignId('type_id')->constrained()->onDelete('cascade');
+
+            $table->foreignId('degree_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('employer_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('company_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('category_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('type_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

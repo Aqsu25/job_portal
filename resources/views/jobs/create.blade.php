@@ -13,7 +13,7 @@
                             <!-- Breadcrumb -->
                             <div class="mb-6 text-sm text-gray-500">
                                 <x-message />
-                                <a href="{{ route('home') }}" class="text-blue-600 hover:underline">Home</a>
+                                <a href="{{ route('home') }}" class="text-blue-600 hover:underline text-decoration-none">Home</a>
                                 <span class="mx-2">/</span>
                                 <span class="font-medium text-gray-700">Post a Job</span>
                             </div>
@@ -84,7 +84,6 @@
                                             </div>
                                             {{-- company-name --}}
                                             <div class="">
-
                                                 <!-- Category  -->
                                                 <div>
                                                     <label class="block text-sm font-medium text-gray-700 mb-1">
@@ -105,7 +104,28 @@
                                                         <p class="text-red-500">{{ $message }}</p>
                                                     @enderror
                                                 </div>
-
+                                            </div>
+                                                {{-- degree --}}
+                                            <div class="">
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700 mb-1">
+                                                        Degree<span class="text-red-500">*</span>
+                                                    </label>
+                                                    <select name="degree_id" id=""
+                                                        class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500">
+                                                        @if ($degrees->isNotEmpty())
+                                                            <option value="">Select a Company</option>
+                                                            @foreach ($degrees as $degree)
+                                                                <option value="{{ $degree->id }}"
+                                                                    {{ old('degree_id') == $degree->id ? 'selected' : '' }}>
+                                                                    {{ $degree->name }}</option>
+                                                            @endforeach
+                                                        @endif
+                                                    </select>
+                                                    @error('degree_id')
+                                                        <p class="text-red-500">{{ $message }}</p>
+                                                    @enderror
+                                                </div>
                                             </div>
 
                                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">

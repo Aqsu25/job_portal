@@ -120,10 +120,53 @@
                                 </a>
                             @endauth
                         </div>
-
+                        {{-- application --}}
+                        @if (auth()->id() == $job->user_id)
+                            @if ($applicants->isNotEmpty())
+                                <div>
+                                    <div>
+                                        <h5 class="text-gray-500 text-center my-3">Applicants</h5>
+                                    </div>
+                                    <table class="w-full">
+                                        <thead class="bg-gray-50">
+                                            <tr class="border-b">
+                                                <th class="px-6 py-3 text-left">#</th>
+                                                <th class="px-6 py-3 text-left">Name</th>
+                                                <th class="px-6 py-3 text-left">Email</th>
+                                                <th class="px-6 py-3 text-left">Applied Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="bg-white">
+                                            {{-- @if (Auth::check() && $applicants->jobdetail_id == $job->id) --}}
+                                            @foreach ($applicants as $applicant)
+                                                <tr class="border-b">
+                                                    <td class="px-6 py-3 text-left">{{ $loop->iteration }}</td>
+                                                    <td class="px-6 py-3 text-left">{{ optional($applicant->user)->name }}
+                                                    </td>
+                                                    <td class="px-6 py-3 text-left">
+                                                        {{ optional($applicant->user)->email }}
+                                                    </td>
+                                                    <td class="px-6 py-3 text-left">
+                                                        {{ \Carbon\Carbon::parse($applicant->created_at)->format('d M,Y') }}
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                            {{-- @endif --}}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            @else
+                                <tr>
+                                    <td class="colspan-3">
+                                        No Applicants Found!
+                                    </td>
+                                </tr>
+                            @endif
+                        @endif
                     </div>
                 </div>
 
+                {{-- job-summary --}}
                 <div class="col-lg-4">
 
                     <div class="card border-0 shadow-sm mb-4 p-4">

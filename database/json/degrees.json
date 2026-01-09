@@ -1,0 +1,103 @@
+{
+  "degrees": [
+    {
+      "level": "Secondary",
+      "list": [
+        "Matriculation (SSC)",
+        "O-Level"
+      ]
+    },
+    {
+      "level": "Higher Secondary",
+      "list": [
+        "Intermediate (HSSC)",
+        "FSc (Pre-Medical)",
+        "FSc (Pre-Engineering)",
+        "FSc (ICS)",
+        "FA",
+        "ICOM",
+        "A-Level"
+      ]
+    },
+    {
+      "level": "Diploma",
+      "list": [
+        "DAE (Diploma of Associate Engineer)",
+        "D.Com",
+        "DIT (Diploma in Information Technology)",
+        "Diploma in Civil Technology",
+        "Diploma in Electrical Technology",
+        "Diploma in Mechanical Technology"
+      ]
+    },
+    {
+      "level": "Bachelor",
+      "list": [
+        "BA",
+        "BSc",
+        "B.Com",
+        "BBA",
+        "BS",
+        "BSCS",
+        "BSIT",
+        "BSE",
+        "B.Ed",
+        "LLB",
+        "BPharm",
+        "BDS",
+        "MBBS",
+        "BE (Civil)",
+        "BE (Electrical)",
+        "BE (Mechanical)",
+        "BE (Software)",
+        "BFA",
+        "BS Economics",
+        "BS Mathematics",
+        "BS Physics",
+        "BS Chemistry",
+        "BS Biotechnology",
+        "BS Psychology"
+      ]
+    },
+    {
+      "level": "Master",
+      "list": [
+        "MA",
+        "MSc",
+        "M.Com",
+        "MBA",
+        "MS",
+        "MSCS",
+        "MSIT",
+        "M.Ed",
+        "LLM",
+        "MPH",
+        "MPhil",
+        "MFA",
+        "MS Economics",
+        "MS Mathematics",
+        "MS Psychology"
+      ]
+    },
+    {
+      "level": "Doctorate",
+      "list": [
+        "PhD"
+      ]
+    },
+    {
+      "level": "Professional Certifications",
+      "list": [
+        "CA (Chartered Accountant)",
+        "ACCA",
+        "ICMA",
+        "CMA",
+        "ACMA",
+        "PMP",
+        "CISSP",
+        "Microsoft Certification",
+        "Cisco Certification"
+      ]
+    }
+  ]
+}

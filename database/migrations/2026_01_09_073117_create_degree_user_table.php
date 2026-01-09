@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('application', function (Blueprint $table) {
+        Schema::create('degree_user', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('jobdetail_id')->constrained()->onDelete('cascade');
-            $table->foreignId('employer_id')->constrained('users')->onDelete('cascade');
-            $table->timestamp('applied_date');
+            $table->foreignId('degree_id')->constrained()->onDelete('cascade');
+            $table->year('graduation_year')->nullable();
+            $table->string('institution')->nullable();
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('application');
+        Schema::dropIfExists('degree_user');
     }
 };
