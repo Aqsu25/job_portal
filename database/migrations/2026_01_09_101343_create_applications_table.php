@@ -17,6 +17,7 @@ return new class extends Migration
             // Job seeker
             $table->foreignId('user_id')
                 ->constrained()
+                
                 ->onDelete('cascade');
 
             // Job

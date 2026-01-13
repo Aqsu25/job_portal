@@ -1,21 +1,22 @@
 @extends('homes.header')
 @section('main')
-    <div class="min-h-screen bg-gray-50 py-10">
+    <div class="min-h-screen bg-gray-100 py-10">
         <div class="max-w-7xl mx-auto px-4">
 
             <!-- Breadcrumb -->
             <div class="mb-6 text-sm text-gray-500">
                 <x-message />
-                <a href="{{ route('home') }}" class="text-blue-600 hover:underline">Home</a>
-                <span class="mx-2">/</span>
-                <span class="font-medium text-gray-700">Edit Job_Type</span>
+                <a href="{{ route('admin.index') }}" class="text-blue-500 hover:underline text-decoration-none">Admin
+                    Dashboard</a>
+                <span class="mx-2 text-gray-800">/</span>
+                <span class="font-medium text-gray-800">Edit Job_Type</span>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
 
                 <!-- Sidebar -->
                 <div class="md:col-span-1">
-                    @include('users.sidebar')
+                    @include('admin.sidebar')
                 </div>
 
                 <!-- Main Content -->
@@ -58,11 +59,11 @@
                                     <select name="status"
                                         class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500">
                                         <option value="1"
-                                            {{ old('status', $type->status ?? '') == 'active' ? 'selected' : '' }}>
+                                            {{ old('status', $type->status ?? '') == '1' ? 'selected' : '' }}>
                                             Active
                                         </option>
                                         <option value="0"
-                                            {{ old('status', $type->status ?? '') == 'inactive' ? 'selected' : '' }}>
+                                            {{ old('status', $type->status ?? '') == '0' ? 'selected' : '' }}>
                                             Inactive
                                         </option>
                                     </select>
@@ -78,10 +79,12 @@
                             </div>
 
                             <!-- Submit -->
-                            <div class="pt-4 flex justify-end">
+                            <div class="pt-4 flex justify-end gap-3">
+                                <a href="{{ route('types.index') }}"
+                                    class="px-8 py-2 bg-gray-600 text-white rounded-lg font-medium hover:bg-gray-700 transition text-decoration-none">Back</a>
                                 <button type="submit"
-                                    class="px-8 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition">
-                                    Update Type
+                                    class="px-8 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition text-decoration-none">
+                                    Update
                                 </button>
                             </div>
 

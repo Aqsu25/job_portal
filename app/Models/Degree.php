@@ -13,4 +13,10 @@ class Degree extends Model
     {
         return $this->belongsToMany(User::class, 'degree_user', 'degree_id', 'user_id');
     }
+
+    // pivot-table-job
+    public function job()
+    {
+        return $this->belongsToMany(Jobdetail::class, 'degree_jobdetail', 'degree_id', 'jobdetail_id');
+    }
 }

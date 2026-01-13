@@ -9,14 +9,14 @@
 
             @if ($profileImage)
                 <img src="{{ asset('uploads/profile_image/' . $profileImage) }}" alt="Profile Image"
-                    class="w-20 h-20 mx-auto rounded-full bg-blue-400 flex items-center justify-center">
+                    class="w-20 h-20 mx-auto rounded-full bg-blue-500 flex items-center justify-center">
             @else
                 <img src="{{ asset('defaultimg.jpg') }}" alt="Default Image"
                     class="w-20 h-20 mx-auto rounded-full bg-blue-400 flex items-center justify-center">
             @endif
         @else
             <img src="{{ asset('defaultimg.jpg') }}" alt="Default Image"
-                class="w-20 h-20 mx-auto rounded-full bg-blue-400 flex items-center justify-center">
+                class="w-20 h-20 mx-auto rounded-full bg-blue-500 flex items-center justify-center">
         @endauth
     </div>
 
@@ -40,7 +40,7 @@
     <div class="d-flex justify-content-center mb-2">
         <!-- Button trigger modal -->
         <button type="button" onclick="openModal()"
-            class="text-white bg-blue-400 box-border rounded font-bold border border-transparent hover:bg-blue-700 focus:ring-4 focus:ring-brand-medium shadow-xs leading-5 px-4 py-2.5 focus:outline-none">
+            class="text-white bg-blue-500 box-border rounded font-bold border border-transparent hover:bg-blue-700 focus:ring-4 focus:ring-brand-medium shadow-xs leading-5 px-4 py-2.5 focus:outline-none">
             Change Profile Image
         </button>
     </div>
@@ -49,7 +49,7 @@
 
 <!-- MENU -->
 <div class="bg-white shadow p-4 space-y-2 text-decoration-none">
-    <a href="{{route('myprofile')}}" class="block px-4 py-2 rounded-lg bg-blue-50 text-blue-400 font-medium text-decoration-none">
+    <a href="{{route('myprofile')}}" class="block px-4 py-2 rounded-lg bg-blue-50 text-blue-500 font-medium text-decoration-none">
         Account Settings
     </a>
     <a href="{{route('job_portal.create')}}" class="block px-4 py-2 rounded-lg hover:bg-gray-100 text-black text-decoration-none">

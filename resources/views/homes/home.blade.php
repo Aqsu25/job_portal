@@ -196,7 +196,7 @@
                             </div>
                             <div class="flex justify-between items-center mt-3">
 
-                                <a href="{{ route('job_portal.detail', $job->id) }}"
+                                <a href="{{ route('job_portal.detail', $latestjob->id) }}"
                                     class="text-decoration-none w-full bg-blue-500 hover:bg-blue-600 text-white text-center px-4 py-2 rounded-md text-sm text-decoration-none">
                                     View Details
                                 </a>

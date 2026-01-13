@@ -25,7 +25,7 @@
                                 <div class="text-muted d-flex gap-4 mt-2">
                                     <span>
                                         <i class="fa-solid fa-location-dot text-danger"></i>
-                                        {{ $job->location }}
+                                        {{ optional($job->company)->location }}
                                     </span>
 
                                     <span>

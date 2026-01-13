@@ -66,14 +66,19 @@
                             <a href="{{ route('myprofile') }}" class="btn btn-outline-primary">
                                 My Profile
                             </a>
-                            <a href="{{ route('job_portal.create') }}"
-                                class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition font-medium text-decoration-none">
-                                Post a Job
-                            </a>
+                            @if (!auth()->user()->hasRole('employer'))
+                                <form action="{{ route('request.employer') }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="btn btn-primary">Request Employer Role</button>
+                                </form>
+                            @else
+                                <a href="{{ route('job_portal.create') }}"
+                                    class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition font-medium text-decoration-none">
+                                    Post a Job
+                                </a>
+                            @endif
                         @endif
                     @else
-                        {{-- <a href="{{ route('login') }}" class="text-gray-600 hover:text-blue-600 font-medium">
-                        </a> --}}
                         <a href="{{ route('login') }}"
                             class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition font-medium">
                             Login
@@ -150,7 +155,8 @@
             <div>
                 <h3 class="text-white font-semibold mb-4">Quick Links</h3>
                 <ul class="space-y-2">
-                    <li><a href="{{ route('home') }}" class="hover:text-blue-500 transition text-decoration-none">Home</a></li>
+                    <li><a href="{{ route('home') }}"
+                            class="hover:text-blue-500 transition text-decoration-none">Home</a></li>
                     <li><a href="#" class="hover:text-blue-500 transition text-decoration-none">Jobs</a></li>
                     <li><a href="#" class="hover:text-blue-500 transition text-decoration-none">Companies</a></li>
                     <li><a href="#" class="hover:text-blue-500 transition text-decoration-none">About</a></li>

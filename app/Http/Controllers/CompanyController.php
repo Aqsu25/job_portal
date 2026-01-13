@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Company;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CompanyController extends Controller
 {
@@ -12,7 +13,12 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        $companies = Company::orderBy('created_at', 'DESC')->paginate(3);
+        if (auth()->user()->hasRole('admin')) {
+            $companies = Company::orderBy('created_at', 'ASC')->paginate(3);
+        } else {
+
+            $companies = Company::where('employer_id', Auth::user()->id)->orderBy('created_at', 'DESC')->paginate(3);
+        }
         return view('company.list', compact('companies'));
     }
 
@@ -33,18 +39,15 @@ class CompanyController extends Controller
         $request->validate([
             'name'     => 'required|string|min:3',
             'email'    => 'required|email|unique:companies,email',
-            'location' => 'required|string|min:3',
             'website'  => 'required|url',
         ]);
-
-        // dd($request->all());
-
 
         Company::create([
             'name'          => $request->name,
             'email'        => $request->email,
-            'location'       => $request->location,
             'website'    => $request->website,
+            'employer_id' => Auth::id(),
+
         ]);
 
 
@@ -80,15 +83,14 @@ class CompanyController extends Controller
         $request->validate([
             'name'     => 'required|string|min:3',
             'email'    => 'required|email|unique:companies,email,' . $id,
-            'location' => 'required|string|min:3',
             'website'  => 'required|url',
+
         ]);
-        // dd($request->all());
         $company->update([
             'name'          => $request->name,
             'email'        => $request->email,
-            'location'       => $request->location,
             'website'    => $request->website,
+            'employer_id' => Auth::id(),
         ]);
         return redirect()
             ->route('companies.index')
@@ -101,12 +103,17 @@ class CompanyController extends Controller
      */
     public function destroy(string $id)
     {
-        $company = Company::findOrFail($id);
-        if ($company) {
-            $company->delete();
-        }
-        else{
 
+        try {
+            $company = Company::findOrFail($id);
+            $company->delete();
+            return redirect()
+                ->route('companies.index')
+                ->with('success', 'Type Deleted Successfully!');
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return redirect()
+                ->route('companies.index')
+                ->with('error', 'Type not found!');
         }
     }
 }

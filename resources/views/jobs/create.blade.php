@@ -13,18 +13,32 @@
                             <!-- Breadcrumb -->
                             <div class="mb-6 text-sm text-gray-500">
                                 <x-message />
-                                <a href="{{ route('home') }}" class="text-blue-600 hover:underline text-decoration-none">Home</a>
-                                <span class="mx-2">/</span>
+                                @if (auth()->user()->hasRole('admin'))
+                                    <a href="{{ route('admin.index') }}"
+                                        class="text-blue-500 hover:underline text-decoration-none">Admin
+                                        Dashboard</a>
+                                    <span class="mx-2 text-gray-800">/</span>
+                                @else
+                                    <a href="{{ route('home') }}"
+                                        class="text-blue-500 hover:underline text-decoration-none">Home</a>
+                                    <span class="mx-2 text-gray-800">/</span>
+                                @endif
                                 <span class="font-medium text-gray-700">Post a Job</span>
                             </div>
 
                             <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
 
-
-                                <!-- Sidebar -->
-                                <div class="md:col-span-1">
-                                    @include('users.sidebar')
-                                </div>
+                                @if (auth()->user()->hasRole('admin'))
+                                    <!-- Sidebar -->
+                                    <div class="md:col-span-1">
+                                        @include('admin.sidebar')
+                                    </div>
+                                @else
+                                    <!-- Sidebar -->
+                                    <div class="md:col-span-1">
+                                        @include('users.sidebar')
+                                    </div>
+                                @endif
 
                                 <!-- Main Content -->
                                 <div class="md:col-span-3">
@@ -105,19 +119,19 @@
                                                     @enderror
                                                 </div>
                                             </div>
-                                                {{-- degree --}}
+                                            {{-- degree --}}
                                             <div class="">
                                                 <div>
                                                     <label class="block text-sm font-medium text-gray-700 mb-1">
                                                         Degree<span class="text-red-500">*</span>
                                                     </label>
-                                                    <select name="degree_id" id=""
-                                                        class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500">
+                                                    <select multiple name="degree_id[]" id=""
+                                                        class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500 degree">
                                                         @if ($degrees->isNotEmpty())
-                                                            <option value="">Select a Company</option>
+                                                            <option value="">Select a Degree</option>
                                                             @foreach ($degrees as $degree)
                                                                 <option value="{{ $degree->id }}"
-                                                                    {{ old('degree_id') == $degree->id ? 'selected' : '' }}>
+                                                                    {{ collect(old('degree_id'))->contains($degree->id) ? 'selected' : '' }}>
                                                                     {{ $degree->name }}</option>
                                                             @endforeach
                                                         @endif
@@ -177,21 +191,18 @@
                                                     </label>
                                                     <input type="text" name="salary" value="{{ old('salary') }}"
                                                         class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500"
-                                                        placeholder="Salary">
+                                                        placeholder="e.g 40000">
                                                 </div>
-
-                                                <!-- Email -->
-                                                <div>
+                                                {{-- location --}}
+                                                  <div>
                                                     <label class="block text-sm font-medium text-gray-700 mb-1">
-                                                        Location <span class="text-red-500">*</span>
+                                                        Location
                                                     </label>
                                                     <input type="text" name="location" value="{{ old('location') }}"
                                                         class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500"
-                                                        placeholder="Location">
-                                                    @error('location')
-                                                        <p class="text-red-500">{{ $message }}</p>
-                                                    @enderror
+                                                        placeholder="e.g rawalpindi">
                                                 </div>
+                                               
                                             </div>
 
                                             <!-- Description -->
@@ -199,35 +210,37 @@
                                                 <label class="block text-sm font-medium text-gray-700 mb-1">
                                                     Description
                                                 </label>
-                                                <textarea name="description" id="" cols="20" rows="5"
-                                                    class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500">{{ old('description') }}</textarea>
-
+                                                <textarea name="description" class="textarea" id="description">{!! old('description') !!}</textarea>
+                                                @error('description')
+                                                    <p class="text-red-500">{{ $message }}</p>
+                                                @enderror
                                             </div>
+
+
                                             <!-- Benefits -->
                                             <div>
                                                 <label class="block text-sm font-medium text-gray-700 mb-1">
                                                     Benefits
                                                 </label>
-                                                <textarea name="benefits" id="" cols="20" rows="5"
-                                                    class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500">{{ old('benefits') }}</textarea>
+                                                <textarea name="benefits" id="" cols="20" rows="5" class="textarea">{{ old('benefits') }}</textarea>
 
                                             </div>
-                                            <!-- Benefits -->
+                                            <!-- Responsibility -->
                                             <div>
                                                 <label class="block text-sm font-medium text-gray-700 mb-1">
                                                     Responsibility
                                                 </label>
-                                                <textarea name="responsibility" id="" cols="20" rows="5"
-                                                    class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500">{{ old('responsibility') }}</textarea>
-
+                                                <textarea name="responsibility" class="textarea" id="responsibility">{{ old('responsibility') }}</textarea>
+                                                @error('responsibility')
+                                                    <p class="text-red-500">{{ $message }}</p>
+                                                @enderror
                                             </div>
                                             <!-- Qualifications -->
                                             <div>
                                                 <label class="block text-sm font-medium text-gray-700 mb-1">
                                                     Qualifications
                                                 </label>
-                                                <textarea name="qualifications" id="" cols="20" rows="5"
-                                                    class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500">{{ old('qualifications') }}</textarea>
+                                                <textarea name="qualifications" id="" cols="20" rows="5" class="textarea">{{ old('qualifications') }}</textarea>
 
                                             </div>
                                             <!-- keywords -->
@@ -262,10 +275,12 @@
 
                                             </div>
                                             <!-- Submit -->
-                                            <div class="pt-4 flex justify-end">
+                                            <div class="pt-4 flex justify-end gap-3">
+                                                <a href="{{ route('job_portal.index') }}"
+                                                    class="px-8 py-2 bg-gray-600 text-white rounded-lg font-medium hover:bg-gray-700 transition text-decoration-none">Back</a>
                                                 <button type="submit"
                                                     class="px-8 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition">
-                                                    Save Job
+                                                    Save
                                                 </button>
                                             </div>
                                         </form>
@@ -278,4 +293,16 @@
             </div>
         </div>
     </div>
+@endsection
+@section('JS')
+    <script>
+        $(document).ready(function() {
+            $('.degree').select2();
+        });
+    </script>
+@endsection
+@section('trumbowyg')
+    <script>
+        $('.textarea').trumbowyg();
+    </script>
 @endsection

@@ -1,22 +1,35 @@
 @extends('homes.header')
 @section('main')
-    <div class="min-h-screen bg-gray-50 py-10">
+    <div class="min-h-screen bg-gray-100 py-10">
         <div class="max-w-7xl mx-auto px-4">
 
             <!-- Breadcrumb -->
             <div class="mb-6 text-sm text-gray-500">
                 <x-message />
-                <a href="{{ route('home') }}" class="text-blue-600 hover:underline">Home</a>
-                <span class="mx-2">/</span>
+                @if (auth()->user()->hasRole('admin'))
+                    <a href="{{ route('admin.index') }}" class="text-blue-500 hover:underline text-decoration-none">Admin
+                        Dashboard</a>
+                    <span class="mx-2 text-gray-800">/</span>
+                @else
+                    <a href="{{ route('home') }}" class="text-blue-500 hover:underline text-decoration-none">Home</a>
+                    <span class="mx-2 text-gray-800">/</span>
+                @endif
                 <span class="font-medium text-gray-700">Add Company</span>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                @if (auth()->user()->hasRole('admin'))
+                    <!-- Sidebar -->
+                    <div class="md:col-span-1">
+                        @include('admin.sidebar')
+                    </div>
+                @else
+                    <!-- Sidebar -->
+                    <div class="md:col-span-1">
+                        @include('users.sidebar')
+                    </div>
+                @endif
 
-                <!-- Sidebar -->
-                <div class="md:col-span-1">
-                    @include('users.sidebar')
-                </div>
 
                 <!-- Main Content -->
                 <div class="md:col-span-3">
@@ -35,21 +48,20 @@
                         <!-- Form -->
                         <form method="POST" action="{{ route('companies.store') }}" class="space-y-6">
                             @csrf
-
                             <!-- Company Name & Email -->
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">
-                                        Company Name <span class="text-red-500">*</span>
-                                    </label>
-                                    <input type="text" name="name" value="{{ old('name') }}"
-                                        class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500"
-                                        placeholder="e.g. Tech Solutions Ltd">
-                                    @error('name')
-                                        <p class="text-red-500 text-sm">{{ $message }}</p>
-                                    @enderror
-                                </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">
+                                    Company Name <span class="text-red-500">*</span>
+                                </label>
+                                <input type="text" name="name" value="{{ old('name') }}"
+                                    class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                                    placeholder="e.g. Tech Solutions Ltd">
+                                @error('name')
+                                    <p class="text-red-500 text-sm">{{ $message }}</p>
+                                @enderror
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1">
@@ -63,23 +75,9 @@
                                     @enderror
                                 </div>
 
-                            </div>
 
-                            <!-- Location & Website -->
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">
-                                        Location <span class="text-red-500">*</span>
-                                    </label>
-                                    <input type="text" name="location" value="{{ old('location') }}"
-                                        class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500"
-                                        placeholder="e.g. Karachi, Pakistan">
-                                    @error('location')
-                                        <p class="text-red-500 text-sm">{{ $message }}</p>
-                                    @enderror
-                                </div>
-
+                                <!-- Location & Website -->
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1">
                                         Website <span class="text-red-500">*</span>
@@ -95,10 +93,12 @@
                             </div>
 
                             <!-- Submit -->
-                            <div class="pt-4 flex justify-end">
+                            <div class="pt-4 flex justify-end gap-3">
+                                <a href="{{ route('companies.index') }}"
+                                    class="px-8 py-2 bg-gray-600 text-white rounded-lg font-medium hover:bg-gray-700 transition text-decoration-none">Back</a>
                                 <button type="submit"
-                                    class="px-8 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition">
-                                    Save Company
+                                    class="px-8 py-2 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-700 transition">
+                                    Save
                                 </button>
                             </div>
 

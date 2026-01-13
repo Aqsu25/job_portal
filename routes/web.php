@@ -38,11 +38,10 @@ Route::middleware('auth')->group(function () {
     // update-profile-pic
     Route::post('updatepic/myprofile', [ProfileController::class, 'updateProfilepic'])->name('updateprofile.pic');
 
-    // categories
-    Route::resource('/categories', CategoryController::class);
+    // request-employer
+    Route::post('/request_employer', [UserController::class, 'request_employer'])->name('request.employer');
 
-    // types
-    Route::resource('/types', TypeController::class);
+
 
     //  job
     Route::resource('/job_portal', JobController::class);
@@ -79,11 +78,23 @@ Route::post('/likejobpost/{id}', [UserController::class, 'likejobpost'])->name('
 
 
 // ADMIN
-Route::resource('/roles', RoleController::class);
-Route::resource('/permissions', PermissionController::class);
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('/admin', AdminController::class);
-});
+    Route::resource('/roles', RoleController::class);
+    Route::resource('/permissions', PermissionController::class);
+    // categories
+    Route::resource('/categories', CategoryController::class);
 
+    // types
+    Route::resource('/types', TypeController::class);
+    // admin-request-view
+    // approve
+    Route::post('/admin/approve_request/{id}', [AdminController::class, 'approve_request'])->name('request.approve');
+    
+    // reject
+    Route::post('/admin/reject_request/{id}', [AdminController::class, 'reject_request'])->name('request.reject');
+    });
+    
+    Route::get('/admin/request_employer', [AdminController::class, 'requestIndex'])->name('adminrequest.employer');
 
 require __DIR__ . '/auth.php';

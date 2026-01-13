@@ -53,6 +53,17 @@ class User extends Authenticatable
     {
         return $this->hasOne(profile::class);
     }
+    // company
+    public function company()
+    {
+        return $this->hasOne(Company::class);
+    }
+    // job
+    public function job()
+    {
+        return $this->hasMany(Jobdetail::class);
+    }
+
     // job-like
     public function likedJobs()
     {
@@ -74,5 +85,11 @@ class User extends Authenticatable
     public function degree()
     {
         return $this->belongsToMany(Degree::class, 'degree_user', 'user_id', 'degree_id');
+    }
+
+    // request-employer
+    public function requestEmployer()
+    {
+        return $this->hasOne(Request_employer::class);
     }
 }

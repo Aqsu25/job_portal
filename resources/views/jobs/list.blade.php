@@ -8,8 +8,8 @@
             <!-- Breadcrumb -->
             <div class="mb-6 text-sm text-gray-500 ms-2">
                 <a href="{{ route('home') }}" class="text-blue-600 hover:underline text-decoration-none">Home</a>
-                <span class="mx-2">/</span>
-                <span class="text-gray-700">Post a Job</span>
+                <span class="mx-2 text-gray-800">/</span>
+                <span class="text-gray-800">My Jobs</span>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
 
@@ -17,12 +17,11 @@
                 <div class="md:col-span-1">
                     @include('users.sidebar')
                 </div>
-
-                <!-- Main Content -->
+                <!-- Main Content --> 
                 <div class="md:col-span-3">
+                    <x-message></x-message>
                     <div class="bg-white shadow-lg rounded-xl p-8">
                         <!-- Heading -->
-                        <x-message></x-message>
                         <div class="flex justify-between items-center gap-4">
                             <h2 class="text-2xl font-semibold text-gray-800">
                                 My Jobs
@@ -64,7 +63,7 @@
 
                                                         <!-- Location -->
                                                         <span class="text-gray-500 text-sm">
-                                                            {{ $job->location }}
+                                                            {{ optional($job->company)->location }}
                                                         </span>
                                                     </div>
                                                 </div>
@@ -74,7 +73,7 @@
                                                 {{ \Carbon\Carbon::parse($job->created_at)->format('d M,Y') }}
                                             </td>
                                             <td class="p-3 text-gray-900">
-                                                0
+                                                {{ $job->application->count() }}
                                             </td>
                                             <td class="p-3 text-gray-900">
                                                 @if ($job->status == 1)
@@ -87,13 +86,16 @@
                                             </td>
                                             <td class="p-3">
                                                 <div class="flex gap-3">
+                                                     <a href="{{ route('job_portal.detail', $job->id) }}"
+                                                        class="text-blue-500 hover:text-blue-800">
+                                                        <i class="fa-solid fa-eye"></i> </a>
                                                     <a href="{{ route('job_portal.edit', $job->id) }}"
                                                         class="text-blue-600 hover:text-blue-800">
                                                         <i class="fas fa-edit"></i>
                                                     </a>
 
                                                     <form action="{{ route('job_portal.destroy', $job->id) }}"
-                                                        method="POST" onsubmit="return confirm('Are you sure?')">
+                                                        method="POST" onsubmit="return confirm('Are you sure you want to delete job?')">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" class="text-red-600 hover:text-red-800">

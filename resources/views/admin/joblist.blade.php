@@ -7,9 +7,10 @@
 
             <!-- Breadcrumb -->
             <div class="mb-6 text-sm text-gray-500 ms-2">
-                <a href="{{ route('home') }}" class="text-blue-600 hover:underline text-decoration-none">Admin Dashboard</a>
-                <span class="mx-2">/</span>
-                <span class="text-gray-700">Job</span>
+                <a href="{{ route('admin.index') }}" class="text-blue-500 hover:underline text-decoration-none">Admin
+                    Dashboard</a>
+                <span class="mx-2 text-gray-800">/</span>
+                <span class="font-medium text-gray-800">Job</span>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
 
@@ -27,10 +28,10 @@
                             <h2 class="text-2xl font-semibold text-gray-800">
                                 Jobs
                             </h2>
-                             <a href="{{ route('job_portal.create') }}"
+                            <a href="{{ route('job_portal.create') }}"
                                 class="bg-blue-500  border text-decoration-none text-white rounded-md px-3 py-2 font-bond hover:bg-blue-600">Post
                                 a Job</a>
-                           
+
                         </div>
                         <div class="mt-4">
 
@@ -38,7 +39,8 @@
                                 <thead class="bg-gray-50">
                                     <tr>
                                         <th class="p-3 text-left">Title</th>
-                                        <th class="p-3 text-left">Job Created</th>
+                                        <th class="p-3 text-left">Employer</th>
+                                        {{-- <th class="p-3 text-left">Job Created</th> --}}
                                         <th class="p-3 text-left">Applicants</th>
                                         <th class="p-3 text-left">Status</th>
                                         <th class="p-3 text-left">Actions</th>
@@ -65,17 +67,19 @@
 
                                                         <!-- Location -->
                                                         <span class="text-gray-500 text-sm">
-                                                            {{ $job->location }}
+                                                            {{ optional($job->company)->location }}
                                                         </span>
                                                     </div>
                                                 </div>
                                             </td>
-
                                             <td class="p-3 text-gray-900">
-                                                {{ \Carbon\Carbon::parse($job->created_at)->format('d M,Y') }}
+                                                {{ optional($job->employer)->name }}
                                             </td>
+                                            {{-- <td class="p-3 text-gray-900">
+                                                {{ \Carbon\Carbon::parse($job->created_at)->format('d M,Y') }}
+                                            </td> --}}
                                             <td class="p-3 text-gray-900">
-                                                0
+                                                {{ $job->application->count() }}
                                             </td>
                                             <td class="p-3 text-gray-900">
                                                 @if ($job->status == 1)
@@ -88,13 +92,17 @@
                                             </td>
                                             <td class="p-3">
                                                 <div class="flex gap-3">
+                                                     <a href="{{ route('job_portal.detail', $job->id) }}"
+                                                        class="text-blue-500 hover:text-blue-800">
+                                                        <i class="fa-solid fa-eye"></i> </a>
                                                     <a href="{{ route('job_portal.edit', $job->id) }}"
                                                         class="text-blue-600 hover:text-blue-800">
                                                         <i class="fas fa-edit"></i>
                                                     </a>
+                                                    
 
                                                     <form action="{{ route('job_portal.destroy', $job->id) }}"
-                                                        method="POST" onsubmit="return confirm('Are you sure?')">
+                                                        method="POST" onsubmit="return confirm('Are you sure you want to delete job?')">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" class="text-red-600 hover:text-red-800">

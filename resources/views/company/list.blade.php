@@ -1,5 +1,3 @@
-
-
 @extends('homes.header')
 
 @section('main')
@@ -9,17 +7,30 @@
             <!-- Breadcrumb -->
             <div class="mb-6 text-sm text-gray-500">
                 <x-message />
-                <a href="{{ route('home') }}" class="text-blue-600 hover:underline">Home</a>
-                <span class="mx-2">/</span>
-                <span class="font-medium text-gray-700">Companies</span>
+                @if (auth()->user()->hasRole('admin'))
+                   <a href="{{ route('admin.index') }}" class="text-blue-500 hover:underline text-decoration-none">Admin
+                    Dashboard</a>
+                <span class="mx-2 text-gray-800">/</span>
+                @else
+                    <a href="{{ route('home') }}" class="text-blue-600 hover:underline text-decoration-none">Home</a>
+                    <span class="mx-2 text-gray-800">/</span>
+                @endif
+                <span class="font-medium text-gray-800">Companies</span>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
 
                 <!-- Sidebar -->
-                <div class="md:col-span-1">
-                    @include('users.sidebar')
-                </div>
+                @if (auth()->user()->hasRole('admin'))
+                    <div class="md:col-span-1">
+                        @include('admin.sidebar')
+                    </div>
+                @else
+                    <div class="md:col-span-1">
+                        @include('users.sidebar')
+                    </div>
+                @endif
+
 
                 <!-- Main Content -->
                 <div class="md:col-span-3">
@@ -30,7 +41,7 @@
                                 Companies
                             </h2>
                             <a href="{{ route('companies.create') }}"
-                                class="bg-blue-400  border text-decoration-none text-white rounded-md px-3 py-2 font-bond hover:bg-blue-600">Create</a>
+                                class="bg-blue-500  border text-decoration-none text-white rounded-md px-3 py-2 font-bond hover:bg-blue-700">Create</a>
                         </div>
                         <div class="mt-4">
                             <table class="w-full">
@@ -39,7 +50,6 @@
                                         <th class="px-6 py-3 text-left">#</th>
                                         <th class="px-6 py-3 text-left">Name</th>
                                         <th class="px-6 py-3 text-left">Email</th>
-                                        <th class="px-6 py-3 text-left">Location</th>
                                         {{-- <th class="px-6 py-3 text-left">Website</th> --}}
                                         <th class="px-6 py-3 text-center">Action</th>
                                     </tr>
@@ -49,10 +59,9 @@
                                     @if ($companies->isNotEmpty())
                                         @foreach ($companies as $company)
                                             <tr class="border-b">
-                                                <td class="px-6 py-3 text-left">{{ $loop->iteration }}</td>
+                                                <td class="px-6 py-3 text-left">{{ $company->id }}</td>
                                                 <td class="px-6 py-3 text-left">{{ $company->name }}</td>
                                                 <td class="px-6 py-3 text-left">{{ $company->email }}</td>
-                                                <td class="px-6 py-3 text-left">{{ $company->location }}</td>
                                                 {{-- <td class="px-6 py-3 text-left">{{ $company->website }}</td> --}}
 
 
@@ -75,7 +84,9 @@
                                             </tr>
                                         @endforeach
                                     @else
-                                        <p>No Company Created Yet!</p>
+                                        <tr class="text-center">
+                                            <td colspan="5" class="my-2 pt-3">No Company Created Yet!</td>
+                                        </tr>
                                     @endif
                                 </tbody>
                             </table>

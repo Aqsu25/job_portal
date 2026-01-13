@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Jobdetail;
 use App\Models\Like;
+use App\Models\Request_employer;
 use App\Models\User;
 
 use Illuminate\Http\Request;
@@ -109,6 +110,28 @@ class UserController extends Controller
         return view('homes.home', compact('categories', 'isFeatured', 'latestJob'));
     }
 
+
+
+    // request_employer
+    public function request_employer()
+    {
+        $user = Auth::user();
+
+        if ($user->hasRole('employer')) {
+            return redirect()->route('dashboard')->with('error', 'You are already an employer.');
+        }
+        $user = Request_employer::where('user_id', $user->id)->where('status', 'pending')->first();
+
+        if ($user) {
+            return redirect()->route('dashboard')->with('error', 'Your request is already pending.');
+        }
+        Request_employer::create([
+            'user_id' => $user->id,
+            'request_employer' => 'employer',
+            'status'=>'pending',
+        ]);
+        return redirect()->route('dashboard')->with('success', 'Your request to become an employer has been sent.');
+    }
     public function likejobpost($id)
     {
         // dd($id);

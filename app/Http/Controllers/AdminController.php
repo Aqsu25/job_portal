@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Request_employer;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -14,9 +15,38 @@ class AdminController extends Controller
         return view('admin.dashboard');
     }
 
+    public function requestIndex()
+    {
+        $requests = Request_employer::with('employer')->where('status', 'pending')->orderBy('created_at', 'DESC')->paginate(5);
+        return view('admin.requestlist', compact('requests'));
+    }
+
     /**
      * Show the form for creating a new resource.
      */
+    // approve_request 
+
+    public function approve_request($id)
+    {
+        $request = Request_employer::findOrFail($id);
+        $user = $request->employer;
+        if (!$user->hasRole($request->request_employer)) {
+            $user->assignRole($request->request_employer);
+        }
+        $request->update([
+            'status' => 'approved',
+        ]);
+        return redirect()->route('adminrequest.employer')->with('success', 'User has been approved as an employer.');
+    }
+    // reject_request
+    public function reject_request($id)
+    {
+        $reject_request = Request_employer::findOrFail($id);
+        $reject_request->update(['status' => 'rejected']);
+        return redirect()->route('adminrequest.employer')->with('success', 'User request has been rejected.');
+    }
+
+
     public function create()
     {
         //
