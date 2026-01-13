@@ -6,12 +6,13 @@ use App\Models\Request_employer;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
-{
+{         
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+
         return view('admin.dashboard');
     }
 
@@ -47,10 +48,7 @@ class AdminController extends Controller
     }
 
 
-    public function create()
-    {
-        //
-    }
+    public function create() {}
 
     /**
      * Store a newly created resource in storage.

@@ -88,13 +88,14 @@ Route::middleware(['auth', 'admin'])->group(function () {
     // types
     Route::resource('/types', TypeController::class);
     // admin-request-view
+
+    Route::get('/admin/request/employer', [AdminController::class, 'requestIndex'])->name('adminrequest.employer');
     // approve
     Route::post('/admin/approve_request/{id}', [AdminController::class, 'approve_request'])->name('request.approve');
-    
+
     // reject
     Route::post('/admin/reject_request/{id}', [AdminController::class, 'reject_request'])->name('request.reject');
-    });
-    
-    Route::get('/admin/request_employer', [AdminController::class, 'requestIndex'])->name('adminrequest.employer');
+});
+
 
 require __DIR__ . '/auth.php';

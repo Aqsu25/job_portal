@@ -71,13 +71,13 @@
                                                     <form action="{{ route('request.approve', $request->id) }}"
                                                         method="POST">
                                                         @csrf
-                                                        <button type="submit" class="btn btn-primary">Request Employer
+                                                        <button type="submit" class="bg-gray-700 text-white px-3 py-2 rounded-md hover:bg-gray-600 text-sm">
                                                             Approved</button>
                                                     </form>
                                                     <form action="{{ route('request.reject', $request->id) }}"
                                                         method="POST">
                                                         @csrf
-                                                        <button type="submit" class="btn btn-primary">Reject</button>
+                                                        <button type="submit" class="bg-red-700 text-white px-3 py-2 rounded-md hover:bg-red-600 text-sm">Reject</button>
                                                     </form>
                                                 </div>
                                             </td>

@@ -8,7 +8,7 @@
         class="block px-4 py-2 rounded-lg hover:bg-gray-100 text-black text-decoration-none">
         Users
     </a>
-    <a href="{{ route('adminrequest.employer') }}"
+    <a href="{{ route('admin.create') }}"
         class="block px-4 py-2 rounded-lg hover:bg-gray-100 text-black text-decoration-none">
         Employer_Request
     </a>

@@ -111,7 +111,6 @@ class UserController extends Controller
     }
 
 
-
     // request_employer
     public function request_employer()
     {
@@ -128,7 +127,7 @@ class UserController extends Controller
         Request_employer::create([
             'user_id' => $user->id,
             'request_employer' => 'employer',
-            'status'=>'pending',
+            'status' => 'pending',
         ]);
         return redirect()->route('dashboard')->with('success', 'Your request to become an employer has been sent.');
     }
