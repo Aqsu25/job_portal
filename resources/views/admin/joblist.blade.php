@@ -67,7 +67,7 @@
 
                                                         <!-- Location -->
                                                         <span class="text-gray-500 text-sm">
-                                                            {{ optional($job->company)->location }}
+                                                            {{ $job->location }}
                                                         </span>
                                                     </div>
                                                 </div>

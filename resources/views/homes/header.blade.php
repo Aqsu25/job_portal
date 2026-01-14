@@ -49,20 +49,16 @@
                 <!-- Desktop Menu -->
                 <div class="hidden md:flex items-center space-x-8 font-medium">
                     <a href="{{ route('home') }}"
-                        class="text-decoration-none flex items-center gap-2 text-gray-600 hover:text-blue-600 transition">
+                        class="text-decoration-none flex items-center gap-2 text-gray-800 hover:text-blue-500 transition">
                         Home
                     </a>
                     <a href="{{ route('job_portal.index') }}"
-                        class="flex items-center gap-2 text-gray-600 hover:text-blue-600 transition text-decoration-none">
+                        class="flex items-center gap-2 text-gray-800 hover:text-blue-500 transition text-decoration-none">
                         Jobs
                     </a>
                     <a href="{{ route('companies.index') }}"
-                        class="flex items-center gap-2 text-gray-600 hover:text-blue-600 transition text-decoration-none">
+                        class="flex items-center gap-2 text-gray-800 hover:text-blue-500 transition text-decoration-none">
                         Companies
-                    </a>
-                    <a href="#"
-                        class="flex items-center gap-2 text-gray-600 hover:text-blue-600 transition text-decoration-none">
-                        About
                     </a>
                 </div>
 
@@ -77,14 +73,19 @@
                             <a href="{{ route('myprofile') }}" class="btn btn-outline-primary">
                                 My Profile
                             </a>
-                            <a href="{{ route('job_portal.create') }}"
-                                class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition font-medium text-decoration-none">
-                                Post a Job
-                            </a>
+                            @if (!auth()->user()->hasRole('employer'))
+                                <form action="{{ route('request.employer') }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="btn btn-primary">Request Employer Role</button>
+                                </form>
+                            @else
+                                <a href="{{ route('job_portal.create') }}"
+                                    class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition font-medium text-decoration-none">
+                                    Post a Job
+                                </a>
+                            @endif
                         @endif
                     @else
-                        {{-- <a href="{{ route('login') }}" class="text-gray-600 hover:text-blue-600 font-medium">
-                        </a> --}}
                         <a href="{{ route('login') }}"
                             class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition font-medium">
                             Login
@@ -103,29 +104,26 @@
         <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden md:hidden bg-white shadow-md">
             <div class="px-6 py-4 space-y-4">
-                <a href="{{ route('home') }}" class="block text-gray-600 hover:text-blue-600">
+                <a href="{{ route('home') }}" class="block text-gray-800 hover:text-blue-500">
                     Home
                 </a>
-                <a href="#" class="block text-gray-600 hover:text-blue-600">
+                <a href="#" class="block text-gray-800 hover:text-blue-500">
                     Jobs
                 </a>
-                <a href="{{ route('companies.create') }}" class="block text-gray-600 hover:text-blue-600">
+                <a href="{{ route('companies.index') }}" class="block text-gray-800 hover:text-blue-500">
                     Companies
                 </a>
-                <a href="#" class="block text-gray-600 hover:text-blue-600">
-                    About
-                </a>
                 <hr>
-                <a href="{{ route('login') }}" class="block text-gray-600 hover:text-blue-600">Login</a>
+                <a href="{{ route('login') }}" class="block text-gray-800 hover:text-blue-500">Login</a>
                 <a href="{{ route('job_portal.create') }}"
-                    class="block text-center bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700">
+                    class="block text-center bg-blue-500 text-white py-2 rounded-md hover:bg-blue-700">
                     Post a Job
                 </a>
             </div>
         </div>
     </nav>
     {{-- main --}}
-    <section class="py-3 bg-gray-100">
+    <section class="">
         @yield('main')
     </section>
     {{-- JS --}}

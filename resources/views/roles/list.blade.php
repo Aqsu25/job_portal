@@ -1,68 +1,97 @@
 @extends('homes.header')
 
-{{-- Section --}}
 @section('main')
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    <x-message></x-message>
-                    <div class="flex justify-between mb-2">
-                        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                            {{ __('Roles') }}
-                        </h2>
-                        <a href="{{ route('roles.create') }}"
-                            class="bg-blue-500  border text-decoration-none text-white rounded-md px-3 py-2 font-bond hover:bg-blue-700">Create</a>
-        
-                    </div>
-                    <table class="w-full">
-                        <thead class="bg-gray-50">
-                            <tr class="border-b">
-                                <th class="px-6 py-3 text-left">#</th>
-                                <th class="px-6 py-3 text-left">Role</th>
-                                <th class="px-6 py-3 text-left">Permission</th>
-                                <th class="px-6 py-3 text-left">Created_By</th>
-                                <th class="px-6 py-3 text-center">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody class="bg-white">
-                            @foreach ($roles as $role)
-                                <tr class="border-b">
-                                    <td class="px-6 py-3 text-left">{{ $loop->iteration }}</td>
-                                    <td class="px-6 py-3 text-left">{{ $role->name }}</td>
-                                    <td class="px-6 py-3 text-left">
-                                        @if ($role->permissions->pluck('name')->implode(','))
-                                            {{ $role->permissions->pluck('name')->implode(',') }}
-                                        @else
-                                            <p>No Permission Assign Yet!</p>
-                                        @endif
-                                    </td>
-                                    <td class="px-6 py-3 text-left">
-                                        {{ \Carbon\Carbon::parse($role->created_at)->format('d M,Y') }}</td>
-                                    <td class="px-6 py-3 flex justify-center gap-2">
-                                        <a href="{{ route('roles.edit', $role->id) }}"
-                                            class="bg-blue-700 text-white px-3 py-2 rounded-md hover:bg-blue-600 text-sm">
-                                            Edit
-                                        </a>
-                                        <form action="{{ route('roles.destroy', $role->id) }}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button
-                                                class="bg-red-700 text-white px-3 py-2 rounded-md hover:bg-red-600 text-sm">
-                                                Delete
-                                            </button>
-                                        </form>
+<div class="min-h-screen py-10 bg-gray-100">
+    <div class="max-w-7xl mx-auto px-4">
 
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-
-                </div>
-            </div>
+        <!-- Breadcrumb -->
+        <div class="mb-6 text-sm text-gray-500 flex items-center gap-2">
+            <x-message />
+            <a href="{{ route('admin.index') }}" class="text-decoration-none text-blue-500 hover:underline">
+                Admin Dashboard
+            </a>
+            <span>/</span>
+            <span class="font-medium text-gray-800">Permissions</span>
         </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+
+            <!-- Sidebar -->
+            <div class="md:col-span-1">
+                @include('admin.sidebar')
+            </div>
+
+            <!-- Main Content -->
+            <div class="md:col-span-3 flex justify-center">
+
+                <!-- Permissions Card -->
+                <div class="bg-white shadow-lg rounded-xl w-full overflow-hidden">
+                    
+                    <!-- Header -->
+                    <div class="flex justify-between items-center gap-4 p-6 border-b bg-gray-50">
+                        <h2 class="text-2xl font-semibold text-gray-800">Permissions</h2>
+                        <a href="{{ route('permissions.create') }}"
+                            class="bg-blue-500 text-decoration-none text-white rounded-md px-4 py-2 font-medium flex items-center gap-2 hover:bg-blue-600 transition">
+                            <i class="fas fa-plus"></i> Create
+                        </a>
+                    </div>
+
+                    <!-- Table -->
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-100">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-gray-500 font-semibold">#</th>
+                                    <th class="px-6 py-3 text-left text-gray-500 font-semibold">Permission</th>
+                                    <th class="px-6 py-3 text-left text-gray-500 font-semibold">Created By</th>
+                                    <th class="px-6 py-3 text-center text-gray-500 font-semibold">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                @forelse ($permissions as $permission)
+                                    <tr class="hover:bg-gray-50 transition-all">
+                                        <td class="px-6 py-3">{{ $loop->iteration }}</td>
+                                        <td class="px-6 py-3 font-medium text-gray-700">{{ $permission->name }}</td>
+                                        <td class="px-6 py-3 text-gray-500">
+                                            {{ $permission->created_by ?? 'Admin' }}
+                                        </td>
+                                        <td class="px-6 py-3 text-center flex justify-center gap-3">
+                                            <!-- Edit -->
+                                            <a href="{{ route('permissions.edit', $permission->id) }}"
+                                                class="text-blue-500 hover:text-blue-700 transition-colors">
+                                                <i class="fas fa-pen"></i>
+                                            </a>
+
+                                            <!-- Delete -->
+                                            <form action="{{ route('permissions.destroy', $permission->id) }}"
+                                                method="POST"
+                                                onsubmit="return confirm('Are you sure you want to delete this permission?');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit"
+                                                    class="text-red-500 hover:text-red-700 transition-colors">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="4" class="px-6 py-4 text-center text-gray-500 italic">
+                                            No permissions found.
+                                        </td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div> <!-- End Card -->
+
+            </div> <!-- End Main Content -->
+
+        </div> <!-- End Grid -->
+
     </div>
+</div>
 @endsection
-
-

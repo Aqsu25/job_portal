@@ -4,9 +4,9 @@
 @section('main')
     <div class="min-h-screen py-10">
         <div class="max-w-7xl mx-auto px-4">
-            <p class="fs-5 text-gray-400">
+            <p class="fs-5 text-gray-800">
                 <x-message></x-message>
-                <a href="{{ route('home') }}" class="text-blue-400 text-decoration-none">Home</a>
+                <a href="{{ route('home') }}" class="text-blue-500 text-decoration-none">Home</a>
                 / Admin Dashboard
             </p>
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6">

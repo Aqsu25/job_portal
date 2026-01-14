@@ -6,14 +6,29 @@
         <div class="max-w-7xl mx-auto px-4">
             <p class="fs-5 text-gray-400">
                 <x-message></x-message>
-                <a href="{{ route('home') }}" class="text-blue-400 text-decoration-none">Home</a>
-                / Account Settings
+                @if (auth()->user()->hasRole('admin'))
+                    <a href="{{ route('admin.index') }}" class="text-blue-500 hover:underline text-decoration-none">Admin
+                        Dashboard</a>
+                    <span class="mx-2 text-gray-800">/</span>
+                @else
+                    <a href="{{ route('home') }}" class="text-blue-600 hover:underline text-decoration-none">Home</a>
+                    <span class="mx-2 text-gray-800">/</span>
+                @endif
+                <span class="font-medium text-gray-800">Profile</span>
             </p>
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
 
                 <!-- LEFT SIDEBAR -->
                 <div class="md:col-span-1 space-y-6">
-                    @include('users.sidebar')
+                    @if (auth()->user()->hasRole('admin'))
+                        <div class="md:col-span-1">
+                            @include('admin.sidebar')
+                        </div>
+                    @else
+                        <div class="md:col-span-1">
+                            @include('users.sidebar')
+                        </div>
+                    @endif
                 </div>
 
                 <!-- RIGHT CONTENT -->
@@ -34,7 +49,7 @@
                                 <label class="block text-sm font-medium text-gray-400 mb-1">
                                     Full Name*
                                 </label>
-                                <input type="text" name="name" value="{{Auth::user()->name}}"
+                                <input type="text" name="name" value="{{ Auth::user()->name }}"
                                     class="uppercase w-full rounded-lg border-gray-300 focus:border-blue-400 focus:ring-blue-400 mb-3">
                             </div>
 

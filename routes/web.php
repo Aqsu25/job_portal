@@ -18,10 +18,6 @@ Route::get('/', function () {
 Route::get('/home', [UserController::class, 'home'])->name('home');
 
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
 Route::middleware('auth')->group(function () {
     // users
     Route::resource('/users', UserController::class);
@@ -37,6 +33,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/myprofile/store', [ProfileController::class, 'profilestore'])->name('myprofile.store');
     // update-profile-pic
     Route::post('updatepic/myprofile', [ProfileController::class, 'updateProfilepic'])->name('updateprofile.pic');
+
+    // dashboard
+    Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
+
 
     // request-employer
     Route::post('/request_employer', [UserController::class, 'request_employer'])->name('request.employer');

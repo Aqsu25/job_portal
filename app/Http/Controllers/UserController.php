@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Application;
 use App\Models\Category;
 use App\Models\Jobdetail;
 use App\Models\Like;
 use App\Models\Request_employer;
+use App\Models\SaveJob;
 use App\Models\User;
 
 use Illuminate\Http\Request;
@@ -110,6 +112,29 @@ class UserController extends Controller
         return view('homes.home', compact('categories', 'isFeatured', 'latestJob'));
     }
 
+    // dashboard
+   public function dashboard()
+{
+    $user = auth()->user();
+
+    if ($user->hasRole('employer')) {
+        $totalJobs = Jobdetail::where('employer_id', $user->id)->count();
+        $totalApplications = Application::whereHas('job', function($q) use ($user) {
+            $q->where('employer_id', $user->id);
+        })->count();
+
+        return view('dashboard', compact('totalJobs', 'totalApplications'));
+    }
+    $recentApplications = Application::where('user_id', $user->id)
+        ->with(['job', 'job.type'])
+        ->orderBy('created_at', 'DESC')
+        ->paginate(5);
+
+    $savedJobsCount = SaveJob::where('user_id', $user->id)->count();
+
+    return view('users.dashboard', compact('recentApplications', 'savedJobsCount'));
+}
+
 
     // request_employer
     public function request_employer()
@@ -119,9 +144,9 @@ class UserController extends Controller
         if ($user->hasRole('employer')) {
             return redirect()->route('dashboard')->with('error', 'You are already an employer.');
         }
-        $user = Request_employer::where('user_id', $user->id)->where('status', 'pending')->first();
+        $existingRequest = Request_employer::where('user_id', $user->id)->where('status', 'pending')->first();
 
-        if ($user) {
+        if ($existingRequest) {
             return redirect()->route('dashboard')->with('error', 'Your request is already pending.');
         }
         Request_employer::create([

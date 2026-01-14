@@ -1,7 +1,7 @@
 @extends('homes.header')
 
 @section('main')
-    <div class="min-h-screen py-10">
+    <div class="min-h-screen py-10 bg-gray-100">
         <div class="max-w-7xl mx-auto px-4">
 
             <!-- Breadcrumb -->

@@ -2,7 +2,7 @@
 
 @section('main')
 
-    <div class="min-h-screen py-5">
+    <div class="min-h-screen py-5 bg-gray-100">
         <div class="max-w-7xl mx-auto px-4">
             <div class="min-h-screen bg-gray-100">
                 <div class="max-w-7xl mx-auto px-4">
@@ -196,7 +196,7 @@
                                                 {{-- location --}}
                                                   <div>
                                                     <label class="block text-sm font-medium text-gray-700 mb-1">
-                                                        Location
+                                                        Location <span class="text-red-500">*</span>
                                                     </label>
                                                     <input type="text" name="location" value="{{ old('location') }}"
                                                         class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500"

@@ -14,7 +14,7 @@ use App\Models\Type;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Mail;
 
 use Illuminate\Support\Facades\Validator;
@@ -47,6 +47,7 @@ class JobController extends Controller
      */
     public function create()
     {
+        Gate::authorize('create', Jobdetail::class);
         $categories = Category::orderBy('created_at', 'DESC')->where('status', 1)->get();
         $jobNature = Type::orderBy('created_at', 'DESC')->where('status', 1)->get();
         $companies = Company::where('employer_id', Auth::user()->id)->orderBy('created_at', 'DESC')->get();

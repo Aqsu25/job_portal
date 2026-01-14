@@ -8,7 +8,7 @@
     class="block px-4 py-2 rounded-lg hover:bg-gray-100 text-black text-decoration-none">
     Users
   </a>
-  <a href="{{ route('admin.create') }}"
+  <a href="{{ route('adminrequest.employer') }}"
     class="block px-4 py-2 rounded-lg hover:bg-gray-100 text-black text-decoration-none">
     Employer_Request
   </a>
@@ -35,5 +35,13 @@
   <a href="{{ route('job.savepage') }}"
     class="block px-4 py-2 rounded-lg hover:bg-gray-100 text-black text-decoration-none">
     Saved Jobs
+  </a>
+    <a href="{{ route('roles.index') }}"
+    class="block px-4 py-2 rounded-lg hover:bg-gray-100 text-black text-decoration-none">
+    Roles
+  </a>
+     <a href="{{ route('permissions.index') }}"
+    class="block px-4 py-2 rounded-lg hover:bg-gray-100 text-black text-decoration-none">
+    Permissions
   </a>
 </div>

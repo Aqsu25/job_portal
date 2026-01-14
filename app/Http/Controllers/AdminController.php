@@ -18,7 +18,7 @@ class AdminController extends Controller
 
     public function requestIndex()
     {
-        $requests = Request_employer::with('employer')->where('status', 'pending')->orderBy('created_at', 'DESC')->paginate(5);
+        $requests = Request_employer::with('employer')->where('status', 'pending')->orderBy('created_at', 'ASC')->paginate(5);
         return view('admin.requestlist', compact('requests'));
     }
 
@@ -43,7 +43,8 @@ class AdminController extends Controller
     public function reject_request($id)
     {
         $reject_request = Request_employer::findOrFail($id);
-        $reject_request->update(['status' => 'rejected']);
+        $reject_request->update([
+            'status' => 'failed']);
         return redirect()->route('adminrequest.employer')->with('success', 'User request has been rejected.');
     }
 

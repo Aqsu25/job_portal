@@ -7,16 +7,29 @@
 
             <!-- Breadcrumb -->
             <div class="mb-6 text-sm text-gray-500 ms-2">
-                <a href="{{ route('home') }}" class="text-blue-600 hover:underline text-decoration-none">Home</a>
-                <span class="mx-2">/</span>
-                <span class="text-gray-700">Saved Jobs</span>
+               @if (auth()->user()->hasRole('admin'))
+                    <a href="{{ route('admin.index') }}" class="text-blue-500 hover:underline text-decoration-none">Admin
+                        Dashboard</a>
+                    <span class="mx-2 text-gray-800">/</span>
+                @else
+                    <a href="{{ route('home') }}" class="text-blue-500 hover:underline text-decoration-none">Home</a>
+                    <span class="mx-2 text-gray-800">/</span>
+                @endif
+                <span class="text-gray-800">Job Applied</span>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
 
-                <!-- Sidebar -->
-                <div class="md:col-span-1">
-                    @include('users.sidebar')
-                </div>
+                @if (auth()->user()->hasRole('admin'))
+                    <!-- Sidebar -->
+                    <div class="md:col-span-1">
+                        @include('admin.sidebar')
+                    </div>
+                @else
+                    <!-- Sidebar -->
+                    <div class="md:col-span-1">
+                        @include('users.sidebar')
+                    </div>
+                @endif
 
                 <!-- Main Content -->
                 <div class="md:col-span-3">
@@ -33,9 +46,10 @@
                             <table class="w-full">
                                 <thead class="bg-gray-50">
                                     <tr>
+                                        <th class="p-3 text-left">Name</th>
                                         <th class="p-3 text-left">Title</th>
                                         <th class="p-3 text-left">Job Created</th>
-                                        <th class="p-3 text-left">Applicants</th>
+                                        {{-- <th class="p-3 text-left">Applicants</th> --}}
                                         <th class="p-3 text-left">Status</th>
                                         <th class="p-3 text-left">Actions</th>
                                     </tr>
@@ -44,7 +58,9 @@
                                 <tbody class="text-sm">
                                     @forelse ($saveJobs as $saveJob)
                                         <tr class="border-b hover:bg-gray-50">
-
+                                            <td class="p-3 text-gray-900">
+                                                {{ $saveJob->user->name }}
+                                            </td>
                                             <td class="p-3 text-gray-900">
                                                 <div class="flex flex-col space-y-1">
                                                     <!-- Job Title -->
@@ -53,9 +69,9 @@
                                                     </p>
 
                                                     <!-- Type & Location -->
-                                                    <div class="flex items-center space-x-2 mt-1">
+                                                    <div class="flex items-center space-x-2">
                                                         <!-- Type Badge -->
-                                                        <span class=" py-1 text-xs font-medium text-blue-800l">
+                                                        <span class="text-xs font-medium text-blue-800l">
                                                             {{ optional($saveJob->job->type)->name }}&nbsp;.
                                                         </span>
 
@@ -66,14 +82,14 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            
+
 
                                             <td class="p-3 text-gray-900">
                                                 {{ \Carbon\Carbon::parse($saveJob->created_at)->format('d M,Y') }}
                                             </td>
-                                            <td class="p-3 text-gray-900">
+                                            {{-- <td class="p-3 text-gray-900">
                                                 {{ $saveJob->job->application->count() }} Applications
-                                            </td>
+                                            </td> --}}
                                             <td class="p-3 text-gray-900">
                                                 @if ($saveJob->job->status == 1)
                                                     <i class="fa-solid fa-check text-success"></i>
@@ -90,7 +106,8 @@
                                                         <i class="fa-solid fa-eye"></i> </a>
 
                                                     <form action="{{ route('removeSave.job', $saveJob->id) }}"
-                                                        method="POST" onsubmit="return confirm('Are you sure you want to unsave?')">
+                                                        method="POST"
+                                                        onsubmit="return confirm('Are you sure you want to unsave?')">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" class="text-red-500 hover:text-red-800">
