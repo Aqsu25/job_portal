@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\JobEmailNotification;
-use App\Models\Applicatio;
+
 use App\Models\Application;
 use App\Models\Category;
 use App\Models\Company;
@@ -11,11 +10,9 @@ use App\Models\Degree;
 use App\Models\Jobdetail;
 use App\Models\SaveJob;
 use App\Models\Type;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Mail;
 
 use Illuminate\Support\Facades\Validator;
 

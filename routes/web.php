@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\BotManController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\JobController;
@@ -75,6 +76,7 @@ Route::delete('/savejob/{id}/delete', [JobController::class, 'removeSave'])->nam
 // job-like
 Route::post('/likejobpost/{id}', [UserController::class, 'likejobpost'])->name('job.like');
 
+Route::match(['get', 'post'], '/botman', [BotManController::class, 'handle']);
 
 
 // ADMIN
