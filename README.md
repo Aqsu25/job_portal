@@ -49,11 +49,5 @@ This project is built with **Laravel 10**, **Tailwind CSS**, and a MySQL databas
 - Oversee job postings and platform activity
 - Dashboard for overall system monitoring
 
----
 
-## Installation
 
-1. **Clone the repository**
-```bash
-git clone https://github.com/your-username/job-portal.git
-cd job-portal
