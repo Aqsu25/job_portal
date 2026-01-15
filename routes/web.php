@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BotManController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\PermissionController;
@@ -77,6 +78,8 @@ Route::delete('/savejob/{id}/delete', [JobController::class, 'removeSave'])->nam
 Route::post('/likejobpost/{id}', [UserController::class, 'likejobpost'])->name('job.like');
 
 Route::match(['get', 'post'], '/botman', [BotManController::class, 'handle']);
+// chatbot
+Route::post('/ai-chat', [ChatController::class, 'chat'])->name('ai.chat');
 
 
 // ADMIN

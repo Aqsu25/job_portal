@@ -15,10 +15,22 @@
 
     {{-- fontawesome --}}
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
-
     {{-- font --}}
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=La+Belle+Aurore&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=League+Script&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100..900;1,100..900&family=Whisper&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=La+Belle+Aurore&family=Lato:ital,wght@0,100;0,300;0,500;0,700;0,900;1,100;1,300;1,500;1,700;1,900&family=League+Script&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100..900;1,100..900&family=Whisper&display=swap');
+
+        .botman-widget-container {
+            background-image: url("{{ asset('chat-bg.jpg') }}") !important;
+            background-size: cover !important;
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+        }
+
+        .botman-message-content {
+            background-color: rgba(37, 99, 235, 0.9) !important;
+            color: #fff !important;
+            border-radius: 12px;
+        }
     </style>
 </head>
 
@@ -65,7 +77,9 @@
                             @if (!auth()->user()->hasRole('employer'))
                                 <form action="{{ route('request.employer') }}" method="POST">
                                     @csrf
-                                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition font-medium text-decoration-none">Request Employer Role</button>
+                                    <button type="submit"
+                                        class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition font-medium text-decoration-none">Request
+                                        Employer Role</button>
                                 </form>
                             @else
                                 <a href="{{ route('job_portal.create') }}"
@@ -154,8 +168,10 @@
                             class="hover:text-blue-500 transition text-decoration-none text-gray-400">Jobs</a></li>
                     <li><a href="{{ route('companies.index') }}"
                             class="hover:text-blue-500 transition text-decoration-none text-gray-400">Companies</a></li>
-                    <li><a href="#" class="hover:text-blue-500 transition text-decoration-none text-gray-400">About</a></li>
-                    <li><a href="#" class="hover:text-blue-500 transition text-decoration-none text-gray-400">Contact</a></li>
+                    <li><a href="#"
+                            class="hover:text-blue-500 transition text-decoration-none text-gray-400">About</a></li>
+                    <li><a href="#"
+                            class="hover:text-blue-500 transition text-decoration-none text-gray-400">Contact</a></li>
                 </ul>
             </div>
 
@@ -163,11 +179,15 @@
             <div>
                 <h3 class="text-white font-semibold mb-4">Resources</h3>
                 <ul class="space-y-2">
-                    <li><a href="#" class="hover:text-blue-500 text-gray-400 transition text-decoration-none">Blog</a></li>
-                    <li><a href="#" class="hover:text-blue-500 text-gray-400 transition text-decoration-none">FAQ</a></li>
-                    <li><a href="#" class="hover:text-blue-500 text-gray-400 transition text-decoration-none">Terms of
+                    <li><a href="#"
+                            class="hover:text-blue-500 text-gray-400 transition text-decoration-none">Blog</a></li>
+                    <li><a href="#"
+                            class="hover:text-blue-500 text-gray-400 transition text-decoration-none">FAQ</a></li>
+                    <li><a href="#"
+                            class="hover:text-blue-500 text-gray-400 transition text-decoration-none">Terms of
                             Service</a></li>
-                    <li><a href="#" class="hover:text-blue-500 transition text-decoration-none text-gray-400">Privacy Policy</a>
+                    <li><a href="#"
+                            class="hover:text-blue-500 transition text-decoration-none text-gray-400">Privacy Policy</a>
                     </li>
                 </ul>
             </div>
@@ -186,10 +206,14 @@
                 </form>
 
                 <div class="flex space-x-4 mt-2">
-                    <a href="#" class="hover:text-blue-500 text-white transition"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="hover:text-blue-500 text-white transition"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="hover:text-pink-500 text-white transition"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="hover:text-blue-500 text-white transition"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="hover:text-blue-500 text-white transition"><i
+                            class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="hover:text-blue-500 text-white transition"><i
+                            class="fab fa-twitter"></i></a>
+                    <a href="#" class="hover:text-pink-500 text-white transition"><i
+                            class="fab fa-instagram"></i></a>
+                    <a href="#" class="hover:text-blue-500 text-white transition"><i
+                            class="fab fa-linkedin-in"></i></a>
                 </div>
             </div>
 
@@ -200,6 +224,26 @@
         </div>
 
     </footer>
+    <!-- BOTMAN CHAT CONFIG -->
+    <script>
+        var botmanWidget = {
+            aboutText: 'Job Portal Assistant',
+            introMessage: 'Hello! I am your friendly chatbot 🤖<br>How can I help you today?',
+            title: 'Job Portal Bot',
+            mainColor: '#3B82F6', // widget top bar color
+            bubbleBackground: '/chat-bg.jpg', // floating bubble icon background
+            bubbleAvatarUrl: '/chat-bg.jpg', // your envelope/chat icon
+            icon: 'fas fa-envelope', // optional: fontawesome icon
+            textColor: '#ffffff',
+            chatServer: '/botman',
+        };
+    </script>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/botman-web-widget@0/build/js/widget.js"></script>
+
+
 
 </body>
 

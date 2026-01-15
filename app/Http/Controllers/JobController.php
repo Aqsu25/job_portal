@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-
+                  
 use App\Models\Application;
 use App\Models\Category;
 use App\Models\Company;
@@ -13,6 +13,7 @@ use App\Models\Type;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+
 
 use Illuminate\Support\Facades\Validator;
 
@@ -48,8 +49,7 @@ class JobController extends Controller
         $categories = Category::orderBy('created_at', 'DESC')->where('status', 1)->get();
         $jobNature = Type::orderBy('created_at', 'DESC')->where('status', 1)->get();
         $companies = Company::where('employer_id', Auth::user()->id)->orderBy('created_at', 'DESC')->get();
-        $degrees = Degree::orderBy('created_at', 'DESC')->get();
-
+        $degrees = Degree::orderBy('created_at', 'DESC')->get(); 
         return view('jobs.create', compact('categories', 'jobNature', 'companies', 'degrees'));
     }
 

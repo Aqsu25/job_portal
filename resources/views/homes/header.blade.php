@@ -24,12 +24,22 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.27.3/ui/trumbowyg.min.css"
         integrity="sha512-Fm8kRNVGCBZn0sPmwJbVXlqfJmPC13zRsMElZenX6v721g/H7OukJd8XzDEBRQ2FSATK8xNF9UYvzsCtUpfeJg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-
-
     {{-- font --}}
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=La+Belle+Aurore&family=Lato:ital,wght@0,100;0,300;0,500;0,700;0,900;1,100;1,300;1,500;1,700;1,900&family=League+Script&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100..900;1,100..900&family=Whisper&display=swap');
+
+        .botman-widget-container {
+            background-image: url("{{ asset('chat-bg.jpg') }}") !important;
+            background-size: cover !important;
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+        }
+
+        .botman-message-content {
+            background-color: rgba(37, 99, 235, 0.9) !important;
+            color: #fff !important;
+            border-radius: 12px;
+        }
     </style>
 </head>
 
@@ -137,15 +147,18 @@
     <section>
         @yield('trumbowyg')
     </section>
+    <!-- BOTMAN CHAT CONFIG -->
     <script>
         var botmanWidget = {
             aboutText: 'Job Portal Assistant',
-            introMessage: 'Hello! I am your friendly chatbot 🤖',
+            introMessage: 'Hello! I am your friendly chatbot 🤖<br>How can I help you today?',
             title: 'Job Portal Bot',
-            mainColor: '#2563eb',
-            bubbleBackground: '#2563eb',
+            mainColor: '#3B82F6', // widget top bar color
+            bubbleBackground: '/chat-bg.jpg', // floating bubble icon background
+            bubbleAvatarUrl: '/chat-bg.jpg', // your envelope/chat icon
+            icon: 'fas fa-envelope', // optional: fontawesome icon
             textColor: '#ffffff',
-            chatServer: '/botman', // ✅ VERY IMPORTANT
+            chatServer: '/botman',
         };
     </script>
 

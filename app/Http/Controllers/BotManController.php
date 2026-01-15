@@ -2,24 +2,32 @@
 
 namespace App\Http\Controllers;
 
-use BotMan\BotMan\BotMan;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class BotManController extends Controller
 {
-    public function handle()
+    public function handle(Request $request)
     {
         $botman = app('botman');
 
-        $botman->hears('hello', function (BotMan $bot) {
-            $bot->reply('Hello! I am your friendly chatbot 🤖');
-        });
+        $botman->hears('.*', function ($bot) use ($request) {
+            $message = $bot->getMessage()->getText();
 
-        $botman->hears('how are you', function (BotMan $bot) {
-            $bot->reply('I am doing great! How about you? 😊');
-        });
+            $response = Http::withHeaders([
+                'Authorization' => 'Bearer ' . env('OPENAI_API_KEY'),
+                'Content-Type' => 'application/json',
+            ])->post('https://api.openai.com/v1/chat/completions', [
+                'model' => 'gpt-4o-mini',
+                'messages' => [
+                    ['role' => 'system', 'content' => 'You are a friendly Job Portal Assistant.'],
+                    ['role' => 'user', 'content' => $message],
+                ],
+            ]);
 
-        $botman->fallback(function (BotMan $bot) {
-            $bot->reply("Sorry, I didn't understand that. Please try again.");
+            $reply = $response['choices'][0]['message']['content'] ?? "Sorry, I didn't understand that.";
+
+            $bot->reply($reply);
         });
 
         $botman->listen();

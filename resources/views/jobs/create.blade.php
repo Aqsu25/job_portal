@@ -1,7 +1,6 @@
 @extends('homes.header')
 
 @section('main')
-
     <div class="min-h-screen py-5 bg-gray-100">
         <div class="max-w-7xl mx-auto px-4">
             <div class="min-h-screen bg-gray-100">
