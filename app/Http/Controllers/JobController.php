@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-                  
+
 use App\Models\Application;
 use App\Models\Category;
 use App\Models\Company;
@@ -49,7 +49,7 @@ class JobController extends Controller
         $categories = Category::orderBy('created_at', 'DESC')->where('status', 1)->get();
         $jobNature = Type::orderBy('created_at', 'DESC')->where('status', 1)->get();
         $companies = Company::where('employer_id', Auth::user()->id)->orderBy('created_at', 'DESC')->get();
-        $degrees = Degree::orderBy('created_at', 'DESC')->get(); 
+        $degrees = Degree::orderBy('created_at', 'DESC')->get();
         return view('jobs.create', compact('categories', 'jobNature', 'companies', 'degrees'));
     }
 
@@ -251,9 +251,27 @@ class JobController extends Controller
     public function detail($id)
     {
         $job = Jobdetail::findOrFail($id);
-        $applicants = Application::where('jobdetail_id', $job->id)->orderBy('created_at', 'DESC')->with('user')->get();
-        return view('jobs.detail', compact('job', 'applicants'));
+        return view('jobs.detail', compact('job'));
     }
+
+    public function applications()
+    {
+        $user = Auth::user();
+        if ($user->hasRole('admin')) {
+
+            $applicants = Application::orderBy('created_at', 'ASC')->with('user', 'job')->paginate(5);
+        } else {
+
+            $applicants = Application::with(['user', 'job'])
+                ->whereHas('job', function ($query) use ($user) {
+                    $query->where('employer_id', $user->id);
+                })
+                ->orderBy('created_at', 'ASC')
+                ->paginate(5);
+        }
+        return view('jobs.application', compact('applicants'));
+    }
+
 
     public function applyjob($id)
     {

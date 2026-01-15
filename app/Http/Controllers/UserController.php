@@ -108,7 +108,7 @@ class UserController extends Controller
     {
         $categories = Category::where('status', 1)->orderBy('created_at', 'DESC')->take(4)->get();
         $isFeatured = Jobdetail::where('status', 1)->orderBy('created_at', 'DESC')->where('isFeatured', 1)->with('type')->take(4)->get();
-        $latestJob = Jobdetail::where('status', 1)->orderBy('created_at', 'DESC')->take(6)->get();
+        $latestJob = Jobdetail::where('status', 1)->orderBy('created_at', 'DESC')->take(4)->get();
         return view('homes.home', compact('categories', 'isFeatured', 'latestJob'));
     }
 

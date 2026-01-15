@@ -73,11 +73,12 @@ Route::get('/savejob/page', [JobController::class, 'saveJobpage'])->name('job.sa
 
 Route::delete('/savejob/{id}/delete', [JobController::class, 'removeSave'])->name('removeSave.job');
 
+// application
+Route::get('/application', [JobController::class, 'applications'])->name('job.applications');
 
 // job-like
 Route::post('/likejobpost/{id}', [UserController::class, 'likejobpost'])->name('job.like');
 
-Route::match(['get', 'post'], '/botman', [BotManController::class, 'handle']);
 // chatbot
 Route::post('/ai-chat', [ChatController::class, 'chat'])->name('ai.chat');
 

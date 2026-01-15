@@ -93,7 +93,7 @@
                         <a href="{{ route('find.jobs') . '?category_id=' . $category->id }}"
                             class="text-decoration-none font-bond">{{ $category->name }}
                         </a>
-                        <p class="text-gray-500">{{optional($category->jobDetail)->vacancy}}&nbsp;Jobs</p>
+                        <p class="text-gray-500">{{ optional($category->jobDetail)->vacancy }}&nbsp;Jobs</p>
                     </div>
                 @endforeach
             @endif
@@ -118,8 +118,7 @@
             </div>
 
             <!-- Jobs Grid -->
-
-            <div class="grid grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                 @if ($isFeatured->isNotEmpty())
                     @foreach ($isFeatured as $job)
                         <div
@@ -129,12 +128,17 @@
                             </h3>
 
                             <p class="text-gray-500 text-sm mt-1 line-clamp-1">
-                                {{ Illuminate\Support\Str::words($job->description, 10) }}
+                                @if (!empty($job->description))
+                                    {{ Illuminate\Support\Str::words($job->description, 10) }}
+                                @endif
                             </p>
                             <div class="">
-                                <div class="text-sm text-gray-600 mt-4 p-3 bg-gray-100 rounded">
-                                    <span><i class="fa-solid fa-location-crosshairs text-danger"></i>&nbsp;
-                                        {{ $job->location }}</span><br>
+                                <div class="text-sm text-gray-600 mt-4 p-3 bg-gray-100 rounded space-y-1">
+
+                                    @if (!empty($job->location))
+                                        <span><i class="fa-solid fa-location-crosshairs text-red-500"></i>&nbsp;
+                                            {{ $job->location }}</span><br>
+                                    @endif
                                     <span><i class="fa fa-tasks text-yellow-500"></i>&nbsp;
                                         {{ $job->type->name }}</span><br>
                                     <span class="">
@@ -142,13 +146,12 @@
                                         {{ $job->salary ?? 'Negotiable' }}
                                     </span>
                                 </div>
-
                             </div>
 
-                            <div class="flex justify-between items-center mt-3">
 
+                            <div class="flex justify-center mt-3">
                                 <a href="{{ route('job_portal.detail', $job->id) }}"
-                                    class="text-decoration-none w-full bg-blue-500 hover:bg-blue-600 text-white text-center px-4 py-2 rounded-md text-sm text-decoration-none">
+                                    class="w-full sm:w-auto bg-blue-500 hover:bg-blue-600 text-white text-center px-4 py-2 rounded-md text-sm text-decoration-none">
                                     View Details
                                 </a>
                             </div>
@@ -159,52 +162,122 @@
         </div>
     </section>
 @endsection
-
-
 @section('latest')
     <!-- Latest Jobs Section -->
-    <section class="py-16">
-        <div class="max-w-7xl mx-auto px-6">
-            <h2 class="text-3xl font-bold text-gray-800 text-center mb-12">
-                Latest Jobs
-            </h2>
+    <section class="py-12 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <!-- Section Heading -->
+            <div class="text-center mb-10">
+                <h2 class="text-2xl sm:text-3xl font-bold text-gray-800">
+                    Latest <span class="text-blue-500">Jobs</span>
+                </h2>
+                <p class="text-gray-500 mt-2 text-sm sm:text-base">
+                    Explore the newest opportunities available for you
+                </p>
+            </div>
 
-            <div class="grid grid-cols-3 gap-6">
+            <!-- Jobs Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                 @if ($latestJob->isNotEmpty())
                     @foreach ($latestJob as $latestjob)
                         <div
-                            class="bg-white rounded-lg border border-gray-200 hover:border-blue-500 hover:shadow-lg transition p-3">
-                            <h3 class="text-lg font-semibold text-gray-800 hover:text-blue-500">
+                            class="bg-white rounded-lg border border-gray-100 p-4 flex flex-col justify-between h-full
+                        transform transition duration-500 hover:-translate-y-1 hover:scale-105 hover:shadow-lg
+                        animate-fadeIn">
+
+                            <!-- Job Title -->
+                            <h3
+                                class="text-md sm:text-lg font-semibold text-gray-800 hover:text-blue-500 truncate
+                            transition-colors duration-300">
                                 {{ $latestjob->title }}
                             </h3>
 
-                            <p class="text-gray-500 text-sm mt-1 line-clamp-1">
-                                {{ Illuminate\Support\Str::words($latestjob->description, 10) }}
-                            </p>
+                            <!-- Short Description -->
+                            @if (!empty($latestjob->description))
+                                <p
+                                    class="text-gray-500 text-xs sm:text-sm mt-1 line-clamp-2
+                            transition-colors duration-300">
+                                    {{ Illuminate\Support\Str::words($latestjob->description, 10) }}
+                                </p>
+                            @endif
+                            <!-- Job Details Box -->
+                            <!-- Job Details Box -->
                             <div class="">
-                                <div class="text-sm text-gray-600 mt-4 p-3 bg-gray-100 rounded">
-                                    <span><i class="fa-solid fa-location-crosshairs text-danger"></i>&nbsp;
-                                        {{ $latestjob->location }}</span><br>
-                                    <span><i class="fa fa-tasks text-yellow-500"></i>&nbsp;
-                                        {{ $latestjob->type->name }}</span><br>
-                                    <span class="">
+                                <div class="text-sm text-gray-600 mt-2 p-3 bg-gray-100 rounded space-y-1">
+                                    @if (!empty($latestjob->location))
+                                        <span><i class="fa-solid fa-location-crosshairs text-red-500"></i>&nbsp;
+                                            {{ $latestjob->location }}</span><br>
+                                    @endif
+
+                                    @if (!empty($latestjob->type?->name))
+                                        <span><i class="fa fa-tasks text-yellow-500"></i>&nbsp;
+                                            {{ $latestjob->type->name }}</span><br>
+                                    @endif
+
+                                    <span>
                                         <i class="fa-solid fa-dollar-sign text-green-600"></i>&nbsp;
                                         {{ $latestjob->salary ?? 'Negotiable' }}
                                     </span>
                                 </div>
-
                             </div>
-                            <div class="flex justify-between items-center mt-3">
-
+                            <!-- View Details Button -->
+                            <div class="flex justify-center mt-3">
                                 <a href="{{ route('job_portal.detail', $latestjob->id) }}"
-                                    class="text-decoration-none w-full bg-blue-500 hover:bg-blue-600 text-white text-center px-4 py-2 rounded-md text-sm text-decoration-none">
+                                    class="text-decoration-none w-full sm:w-auto bg-blue-500 hover:bg-blue-600 text-white text-center px-4 py-2
+                                rounded-md text-sm no-underline transition-all duration-300 hover:scale-105 hover:shadow-md">
                                     View Details
                                 </a>
                             </div>
                         </div>
                     @endforeach
+                @else
+                    <p class="w-full text-center text-gray-500">No latest jobs available at the moment.</p>
                 @endif
             </div>
         </div>
     </section>
+
+    <!-- Fade-in Animation CSS -->
+    <style>
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fadeIn {
+            animation: fadeIn 0.6s ease forwards;
+        }
+
+        /* Stagger animation for each card */
+        .grid>div:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .grid>div:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .grid>div:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .grid>div:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        .grid>div:nth-child(5) {
+            animation-delay: 0.5s;
+        }
+
+        .grid>div:nth-child(6) {
+            animation-delay: 0.6s;
+        }
+    </style>
 @endsection
